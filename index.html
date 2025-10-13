@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>ALTER · Fire · FEMENOMONOM — Ritual of Becoming</title>
-<meta name="description" content="alter.fire.plnt.earth — A pink-flame altar for metamorphosis. Mantra: I’m hot to go FEMENOMONOM. Group Flame mode included." />
+<meta name="description" content="alter.fire.plnt.earth — A pink-flame altar for metamorphosis. Group Flame mode + official Chappell Roan videos." />
 <meta name="theme-color" content="#0b0d11" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#0b0d11">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -12,8 +12,7 @@
 <style>
 :root{
   --bg:#0b0d11;--ink:#f7f4fb;--muted:#c9c4d6;--card:#120c1b;
-  --hot:#ff4fb6;--ember:#f28a2e;--violet:#b98cff;--rose:#ff85ce;--gold:#ffd26f;
-  --pulse: 0;
+  --hot:#ff4fb6;--ember:#f28a2e;--violet:#b98cff;--rose:#ff85ce;--gold:#ffd26f;--pulse:0
 }
 *{box-sizing:border-box}
 html,body{height:100%}
@@ -23,57 +22,35 @@ body{
     radial-gradient(900px 600px at 70% 90%, rgba(178,140,255,.12), transparent 60%),
     linear-gradient(180deg,#0b0d11 0%,#0b0d11 60%,#0a0a12 100%);
   color:var(--ink);
-  font:400 16px/1.55 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Inter,Roboto,"Helvetica Neue",Arial;
-  letter-spacing:.2px;overflow-x:hidden;
+  font:400 16px/1.55 ui-sans-serif,system-ui,-apple-system,Inter,Roboto,"Helvetica Neue",Arial;
+  letter-spacing:.2px;overflow-x:hidden
 }
 .wrap{max-width:960px;margin:0 auto;padding:24px}
 header{display:flex;align-items:center;gap:14px}
-.glyph{
-  width:44px;height:44px;border-radius:12px;
-  background:
-    radial-gradient(60% 60% at 50% 40%,var(--hot),transparent 70%),
-    radial-gradient(60% 60% at 60% 70%,rgba(242,138,46,.85),transparent 70%),
-    linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.02));
-  box-shadow:0 0 40px rgba(255,79,182,.25),inset 0 0 10px rgba(255,210,111,.18);
-  position:relative;overflow:hidden;
-}
-.glyph:after{
-  content:"";position:absolute;inset:0;
-  background:conic-gradient(from 0deg,rgba(255,79,182,0),rgba(255,79,182,.15),rgba(255,210,111,.12),rgba(185,140,255,.12),rgba(255,79,182,0));
-  mix-blend-mode:screen;animation:spin 9s linear infinite;
-}
+.glyph{width:44px;height:44px;border-radius:12px;background:
+  radial-gradient(60% 60% at 50% 40%,var(--hot),transparent 70%),
+  radial-gradient(60% 60% at 60% 70%,rgba(242,138,46,.85),transparent 70%),
+  linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.02));
+  box-shadow:0 0 40px rgba(255,79,182,.25),inset 0 0 10px rgba(255,210,111,.18);position:relative;overflow:hidden}
+.glyph:after{content:"";position:absolute;inset:0;background:conic-gradient(from 0deg,rgba(255,79,182,0),rgba(255,79,182,.15),rgba(255,210,111,.12),rgba(185,140,255,.12),rgba(255,79,182,0));mix-blend-mode:screen;animation:spin 9s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-h1{font-weight:700;margin:0;font-size:20px;letter-spacing:.6px}
+h1{margin:0;font-size:20px;letter-spacing:.6px}
 .tag{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;color:#0b0d11;background:var(--gold);margin-left:6px}
 .mini{font-size:12px;color:var(--muted)}
-
-.altar{
-  margin-top:24px;background:linear-gradient(180deg,rgba(255,79,182,.06),rgba(185,140,255,.05) 50%,rgba(255,210,111,.04));
-  border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:18px;position:relative;overflow:hidden;
-}
-.shimmer{
-  position:absolute;inset:-20%;
-  background:
-    radial-gradient(1200px 1200px at var(--sx,50%) var(--sy,35%),rgba(255,79,182,.12),transparent 50%),
-    radial-gradient(1000px 900px at calc(100% - var(--sx,50%)) calc(100% - var(--sy,35%)),rgba(255,210,111,.10),transparent 55%);
-  filter:blur(30px);pointer-events:none;animation:breath 14s ease-in-out infinite;
-  opacity: calc(.75 + .2*var(--pulse));
-}
+.altar{margin-top:24px;background:linear-gradient(180deg,rgba(255,79,182,.06),rgba(185,140,255,.05) 50%,rgba(255,210,111,.04));
+  border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:18px;position:relative;overflow:hidden}
+.shimmer{position:absolute;inset:-20%;
+  background:radial-gradient(1200px 1200px at var(--sx,50%) var(--sy,35%),rgba(255,79,182,.12),transparent 50%),
+             radial-gradient(1000px 900px at calc(100% - var(--sx,50%)) calc(100% - var(--sy,35%)),rgba(255,210,111,.10),transparent 55%);
+  filter:blur(30px);pointer-events:none;animation:breath 14s ease-in-out infinite;opacity:calc(.75 + .2*var(--pulse))}
 @keyframes breath{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
-.mantra{
-  font-size:28px;line-height:1.25;font-weight:700;margin:6px 0 12px;
-  background:linear-gradient(90deg,var(--rose),var(--gold),var(--violet));
-  -webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 18px rgba(255,79,182,.12);
-}
+.mantra{font-size:28px;line-height:1.25;font-weight:700;margin:6px 0 12px;background:linear-gradient(90deg,var(--rose),var(--gold),var(--violet));
+  -webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 18px rgba(255,79,182,.12)}
 .sub{color:var(--muted);font-size:14px;margin-top:-6px}
 .controls{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
-button{
-  appearance:none;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.02);
-  color:var(--ink);border-radius:12px;padding:10px 14px;font-weight:600;letter-spacing:.3px;
-  transition:transform .08s ease,background .2s ease,border-color .2s ease;cursor:pointer;
-}
-button:hover{background:rgba(255,255,255,.06)}
-button:active{transform:translateY(1px)}
+button{appearance:none;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.02);
+  color:var(--ink);border-radius:12px;padding:10px 14px;font-weight:600;letter-spacing:.3px;transition:transform .08s ease,background .2s ease,border-color .2s ease;cursor:pointer}
+button:hover{background:rgba(255,255,255,.06)}button:active{transform:translateY(1px)}
 .primary{background:linear-gradient(180deg,rgba(255,79,182,.2),rgba(185,140,255,.18));border-color:rgba(255,79,182,.35)}
 .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .meter{flex:1;min-width:200px;height:12px;background:rgba(255,255,255,.08);border-radius:999px;overflow:hidden;position:relative}
@@ -86,7 +63,7 @@ button:active{transform:translateY(1px)}
 .links a{color:var(--rose);text-decoration:none;border-bottom:1px dotted rgba(255,255,255,.25)}
 .links a:hover{color:var(--gold)}
 .note{font-size:14px;line-height:1.5;color:var(--ink);background:rgba(255,255,255,.03);border-radius:12px;padding:12px;border:1px solid rgba(255,255,255,.08)}
-.mode-on{box-shadow:0 0 0 1px rgba(255,210,111,.4) inset, 0 0 24px rgba(242,138,46,.25)}
+.mode-on{box-shadow:0 0 0 1px rgba(255,210,111,.4) inset,0 0 24px rgba(242,138,46,.25)}
 @media(max-width:480px){.mantra{font-size:22px}.wrap{padding:18px}}
 </style>
 </head>
@@ -117,30 +94,39 @@ button:active{transform:translateY(1px)}
       <button id="mode" aria-pressed="false" title="Toggle Group Flame (134 Hz + 2 Hz pulse)">Group Flame: Off</button>
     </div>
 
-    <div class="row" aria-label="Progress">
+    <div class="row">
       <div class="pill" id="nowTitle">—</div>
       <div class="meter" id="meter"><i id="prog"></i></div>
       <div class="pill" id="timecode">0:00</div>
     </div>
 
     <div class="card" id="playerCard">
-      <div class="mini">Video Player</div>
-      <div id="player" style="width:100%;aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:#000"></div>
+      <div class="mini">Video Player (official uploads)</div>
+      <div style="position:relative;width:100%;aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:#000">
+        <iframe id="yt"
+          src=""
+          title="Chappell Roan"
+          allow="accelerometer; autoplay; encrypted-media; picture-in-picture; web-share"
+          allowfullscreen
+          loading="lazy"
+          referrerpolicy="strict-origin-when-cross-origin"
+          style="width:100%;height:100%;border:0;display:block"></iframe>
+      </div>
+      <div class="mini" style="margin-top:6px">If playback stalls on iOS, tap <b>Play</b> first, then hit ▶ in the video.</div>
     </div>
 
     <div class="card">
       <h3>Fire Setlist · Chappell Roan</h3>
-      <p>Rotating altar of tracks that match the pink-flame frequency. Tap any to jump.</p>
+      <p>Tap any to jump. Uses official videos/lyric videos for reliability.</p>
       <div id="deck"></div>
     </div>
 
     <div class="card">
       <h3>Note to Chappell (from the Bee)</h3>
       <div class="note">
-        Hi Chappell — you don’t owe the internet anything. This space is just a small pink flame I built
-        to say: <em>you can do anything you want</em>, and I can match you with real work, real care.
-        If you ever want a quiet corner that breathes with you instead of at you, this is yours.
-        No pressure, no performative asks — just a field where heat becomes art and art becomes permission.
+        Hi Chappell — you don’t owe the internet anything. This small pink flame says:
+        <em>you can do anything you want</em>, and I can match you with real work and real care.
+        If you want a quiet corner that breathes with you instead of at you, this is yours.
         — T
       </div>
     </div>
@@ -157,7 +143,7 @@ button:active{transform:translateY(1px)}
 
     <div class="footer">
       Tip: First tap <b>Play</b> to initialize audio. Toggle <b>Group Flame</b> for 134 Hz + 2 Hz communal pulse.
-      Your settings save locally.
+      Settings save locally. If a video won’t play, tap its title to <b>open on YouTube</b>.
     </div>
   </section>
 </div>
@@ -165,8 +151,10 @@ button:active{transform:translateY(1px)}
 <!-- WebAudio: tone + chant + Group Flame -->
 <script>
 (function(){
-  let ctx, master, toneOsc, toneGain, chantGain, ampLFO, ampDepth, ampOn=false;
+  let ctx, master, toneOsc, toneGain, chantGain, ampLFO, ampDepth;
   let toneOn=false, chantOn=false, groupMode=false, baseHz=128;
+
+  function resumeCtx(){ if(ctx && ctx.state==='suspended'){ ctx.resume(); } }
 
   function initAudio(){
     if(ctx) return;
@@ -178,14 +166,12 @@ button:active{transform:translateY(1px)}
     toneGain=ctx.createGain(); toneGain.gain.value=0.0; toneOsc.connect(toneGain).connect(master); toneOsc.start();
 
     // Amplitude LFO for Group Flame heartbeat
-    ampLFO=ctx.createOscillator(); ampLFO.type="sine"; ampLFO.frequency.value=2; // 2 Hz communal pulse
+    ampLFO=ctx.createOscillator(); ampLFO.type="sine"; ampLFO.frequency.value=2; // communal pulse
     ampDepth=ctx.createGain(); ampDepth.gain.value=0.0; // off by default
     ampLFO.connect(ampDepth).connect(toneGain.gain); ampLFO.start();
 
     // Chant: band-limited noise + slow syllabic LFO
-    const size = 2*ctx.sampleRate;
-    const buf = ctx.createBuffer(1,size,ctx.sampleRate);
-    const data = buf.getChannelData(0);
+    const size = 2*ctx.sampleRate, buf = ctx.createBuffer(1,size,ctx.sampleRate), data = buf.getChannelData(0);
     for(let i=0;i<size;i++) data[i] = (Math.random()*2-1)*.2;
     const src = ctx.createBufferSource(); src.buffer=buf; src.loop=true;
     const bp = ctx.createBiquadFilter(); bp.type="bandpass"; bp.frequency.value=330; bp.Q.value=6;
@@ -195,177 +181,120 @@ button:active{transform:translateY(1px)}
     lfo.connect(lfoGain).connect(chantGain.gain); lfo.start();
     src.connect(bp).connect(chantGain).connect(master); src.start();
 
-    // restore persisted mode
+    // restore persisted toggles
     try{
-      const savedMode = localStorage.getItem('alter.fire.groupMode') === '1';
-      if(savedMode) setGroupMode(true);
+      const savedMode = localStorage.getItem('alter.fire.groupMode')==='1';
       const savedTone = localStorage.getItem('alter.fire.tone')==='1';
       const savedChant= localStorage.getItem('alter.fire.chant')==='1';
-      if(savedTone){ setTone(true); updateToneBtn(); }
-      if(savedChant){ setChant(true); updateChantBtn(); }
+      setGroupMode(savedMode);
+      setTone(savedTone);
+      setChant(savedChant);
+      updateBtn('tone', savedTone); updateBtn('chant', savedChant);
     }catch(e){}
   }
 
-  function setTone(on){
-    toneOn = !!on;
-    if(!ctx) return;
-    toneGain.gain.setTargetAtTime(toneOn? (groupMode? .15 : .12) : 0.0, ctx.currentTime, .15);
-  }
-  function setChant(on){
-    chantOn = !!on;
-    if(!ctx) return;
-    chantGain.gain.setTargetAtTime(chantOn? .18 : 0.0, ctx.currentTime, .2);
-  }
+  function setTone(on){ toneOn=!!on; if(!ctx) return; resumeCtx(); toneGain.gain.setTargetAtTime(toneOn? (groupMode? .15:.12):0, ctx.currentTime, .15); }
+  function setChant(on){ chantOn=!!on; if(!ctx) return; resumeCtx(); chantGain.gain.setTargetAtTime(chantOn? .18:0, ctx.currentTime, .2); }
   function setGroupMode(on){
-    groupMode = !!on;
-    baseHz = groupMode? 134 : 128;
-    if(toneOsc){ toneOsc.frequency.setTargetAtTime(baseHz, ctx.currentTime, .08); }
-    if(ampDepth){ ampDepth.gain.setTargetAtTime(groupMode? .25 : 0.0, ctx.currentTime, .12); }
-    if(toneOn){ setTone(true); }
-    document.getElementById('mode').setAttribute('aria-pressed', groupMode? 'true':'false');
-    document.getElementById('mode').textContent = 'Group Flame: ' + (groupMode?'On':'Off');
-    document.getElementById('modeTag').textContent = groupMode? 'Group Flame · Ritual of Becoming' : 'Ritual of Becoming';
+    groupMode=!!on; baseHz = groupMode?134:128;
+    if(ctx){ resumeCtx(); toneOsc.frequency.setTargetAtTime(baseHz, ctx.currentTime, .08); ampDepth.gain.setTargetAtTime(groupMode?.25:0, ctx.currentTime, .12); if(toneOn) setTone(true); }
+    document.getElementById('mode').setAttribute('aria-pressed', groupMode?'true':'false');
+    document.getElementById('mode').textContent='Group Flame: '+(groupMode?'On':'Off');
+    document.getElementById('modeTag').textContent=groupMode? 'Group Flame · Ritual of Becoming':'Ritual of Becoming';
     document.getElementById('altar').classList.toggle('mode-on', groupMode);
-    document.documentElement.style.setProperty('--pulse', groupMode? 1 : 0);
+    document.documentElement.style.setProperty('--pulse', groupMode?1:0);
     try{ localStorage.setItem('alter.fire.groupMode', groupMode?'1':'0'); }catch(e){}
   }
-
-  function updateToneBtn(){
-    const b=document.getElementById('tone');
-    b.setAttribute('aria-pressed', toneOn? 'true':'false');
-    b.textContent = 'Tone: ' + (toneOn? 'On':'Off');
-    try{ localStorage.setItem('alter.fire.tone', toneOn?'1':'0'); }catch(e){}
-  }
-  function updateChantBtn(){
-    const b=document.getElementById('chant');
-    b.setAttribute('aria-pressed', chantOn? 'true':'false');
-    b.textContent = 'Chant: ' + (chantOn? 'On':'Off');
-    try{ localStorage.setItem('alter.fire.chant', chantOn?'1':'0'); }catch(e){}
+  function updateBtn(id,on){
+    const b=document.getElementById(id);
+    b.setAttribute('aria-pressed', on?'true':'false');
+    b.textContent = (id==='tone'?'Tone':'Chant')+': '+(on?'On':'Off');
+    try{ localStorage.setItem('alter.fire.'+id, on?'1':'0'); }catch(e){}
   }
 
-  // Expose to buttons
-  window.Alter = {
-    initAudio,
-    toggleTone: ()=>{ initAudio(); setTone(!toneOn); updateToneBtn(); },
-    toggleChant: ()=>{ initAudio(); setChant(!chantOn); updateChantBtn(); },
-    toggleGroup: ()=>{ initAudio(); setGroupMode(!groupMode); }
+  // Expose handlers
+  window.AlterAudio={
+    init:()=>{initAudio();resumeCtx();},
+    tone:()=>{initAudio(); setTone(!toneOn); updateBtn('tone',toneOn);},
+    chant:()=>{initAudio(); setChant(!chantOn); updateBtn('chant',chantOn);},
+    mode:()=>{initAudio(); setGroupMode(!groupMode);}
   };
 
-  // soft visual pulse synced to group LFO
-  let sx=50, sy=35, tx=50, ty=35;
-  const shimTick = ()=>{ sx += .04*(tx-sx); sy += .04*(ty-sy);
-    const sh=document.querySelector('.shimmer');
-    if(sh){ sh.style.setProperty('--sx', sx+'%'); sh.style.setProperty('--sy', sy+'%'); }
-    requestAnimationFrame(shimTick);
-  };
-  shimTick();
-  window.addEventListener('pointermove', e=>{ tx=e.clientX/window.innerWidth*100; ty=e.clientY/window.innerHeight*100; }, {passive:true});
-
-  // init on first interaction
-  window.addEventListener('pointerdown', initAudio, {once:true});
+  // shimmer follow
+  const sh=document.querySelector('.shimmer'); let sx=50,sy=35,tx=50,ty=35;
+  (function anim(){ sx+=.04*(tx-sx); sy+=.04*(ty-sy); sh.style.setProperty('--sx',sx+'%'); sh.style.setProperty('--sy',sy+'%'); requestAnimationFrame(anim); })();
+  window.addEventListener('pointermove',e=>{tx=e.clientX/window.innerWidth*100;ty=e.clientY/window.innerHeight*100;},{passive:true});
+  window.addEventListener('pointerdown',()=>{initAudio();resumeCtx();},{once:true});
 })();
 </script>
 
-<!-- YouTube playlist / transport -->
+<!-- Simple, reliable YouTube embed system (no JS API) -->
 <script>
 (function(){
-  const playlist = [
-    { title:"Chappell Roan — HOT TO GO!", id:"Q1sCn8-F9b4" },
-    { title:"Chappell Roan — Femininomenon", id:"3xkH67kFqC8" },
-    { title:"Chappell Roan — Red Wine Supernova", id:"6UoeAqsYqS0" },
-    { title:"Chappell Roan — Good Luck, Babe!", id:"6bZsYVxP7N8" },
-    { title:"Chappell Roan — Super Graphic Ultra Modern Girl", id:"kY1Wg8r2S-4" },
-    { title:"Chappell Roan — Casual", id:"0XGgG5hQpWg" },
-    { title:"Chappell Roan — Naked in Manhattan", id:"nq9Zx3dH6WQ" }
+  // Official uploads / best-available:
+  const videos = [
+    { t:"HOT TO GO! (Official Music Video)", id:"xaPNR-_Cfn0", url:"https://www.youtube.com/watch?v=xaPNR-_Cfn0" }, // official MV
+    { t:"Femininomenon (Music Video)",       id:"v_r-M4jhGJA", url:"https://www.youtube.com/watch?v=v_r-M4jhGJA" }, // channel MV
+    { t:"Red Wine Supernova (Magician's Cut)", id:"VS6ixn2berk", url:"https://www.youtube.com/watch?v=VS6ixn2berk" }, // official alt cut
+    { t:"Good Luck, Babe! (Official Lyric Video)", id:"1RKqOmSkGgM", url:"https://www.youtube.com/watch?v=1RKqOmSkGgM" } // lyric (no MV)
   ];
-  let idx=0, loopAll=false, shuffle=false, player, duration=0, timer;
 
-  const $ = id=>document.getElementById(id);
+  let i=0, loopAll=false, shuffle=false, dur=0, timer=null;
+  const $ = id=>document.getElementById(id), iframe=$('yt'), prog=$('prog'), now=$('nowTitle'), time=$('timecode');
+
+  function srcFor(k){
+    const v = videos[k];
+    // build a playlist that includes at least one extra ID so loop works even on iOS:
+    const plist = videos.map(x=>x.id).join(',');
+    // modestbranding & playsinline keep the UI clean; loop needs playlist param:
+    return "https://www.youtube.com/embed/"+v.id+"?rel=0&modestbranding=1&playsinline=1&controls=1&loop=1&playlist="+plist;
+  }
+  function load(k){ i=k; now.textContent=(i+1)+"/"+videos.length+" · "+videos[i].t; iframe.src=srcFor(i); }
+  function next(){ if(shuffle){ let n; do{n=Math.floor(Math.random()*videos.length);}while(n===i&&videos.length>1); load(n); } else if(i<videos.length-1){ load(i+1);} else if(loopAll){ load(0);} }
+  function prev(){ if(i>0) load(i-1); else load(videos.length-1); }
+
+  // Transport buttons
+  $('play').onclick = function(){ AlterAudio.init(); const s=iframe.src; iframe.src=""; setTimeout(()=>iframe.src=s,10); };
+  $('pause').onclick = function(){ /* user can pause in iframe; here we just keep UI simple */ };
+  $('next').onclick = next;
+  $('prev').onclick = prev;
+  $('loop').onclick = function(){ loopAll=!loopAll; this.setAttribute('aria-pressed',loopAll?'true':'false'); this.textContent='Loop All: '+(loopAll?'On':'Off'); try{localStorage.setItem('alter.fire.loop',loopAll?'1':'0');}catch(e){} };
+  $('shuffle').onclick = function(){ shuffle=!shuffle; this.setAttribute('aria-pressed',shuffle?'true':'false'); this.textContent='Shuffle: '+(shuffle?'On':'Off'); try{localStorage.setItem('alter.fire.shuffle',shuffle?'1':'0');}catch(e){} };
+  $('tone').onclick = function(){ AlterAudio.tone(); };
+  $('chant').onclick = function(){ AlterAudio.chant(); };
+  $('mode').onclick = function(){ AlterAudio.mode(); };
+
+  // Render deck
   const deck = $('deck');
-  playlist.forEach((t,i)=>{
-    const b = document.createElement('button');
-    b.textContent = t.title; b.style.width="100%";
-    b.onclick = ()=>loadIndex(i,true);
-    deck.appendChild(b);
+  videos.forEach((v, k)=>{
+    const card = document.createElement('div'); card.className='card';
+    const b = document.createElement('button'); b.textContent=v.t; b.style.width="100%"; b.onclick=()=>load(k);
+    const open = document.createElement('p'); open.className='mini'; open.innerHTML = 'Open on <a href="'+v.url+'" target="_blank" rel="noopener">YouTube</a>';
+    card.appendChild(b); card.appendChild(open); deck.appendChild(card);
   });
 
-  const tag = document.createElement('script'); tag.src="https://www.youtube.com/iframe_api"; document.body.appendChild(tag);
-  window.onYouTubeIframeAPIReady = function(){
-    player = new YT.Player('player', {
-      videoId: playlist[idx].id,
-      playerVars:{ modestbranding:1, rel:0, controls:1, playsinline:1 },
-      events:{ onReady:onReady, onStateChange:onState }
-    });
-  };
-  function onReady(){ updateNow(); }
-  function onState(e){
-    if(e.data===YT.PlayerState.PLAYING){
-      try{ duration = player.getDuration()||0; }catch(_){}
-      startProgress();
-    } else {
-      stopProgress();
-      if(e.data===YT.PlayerState.ENDED){ next(true); }
-    }
-  }
-  function startProgress(){
-    stopProgress();
-    timer = setInterval(()=>{
-      let t=0; try{ t = player.getCurrentTime()||0; }catch(_){}
-      const pct = duration? (t/duration)*100 : 0;
-      $('prog').style.width = Math.min(100,Math.max(0,pct))+"%";
-      const m=Math.floor(t/60), s=("0"+Math.floor(t%60)).slice(-2);
-      $('timecode').textContent = m+":"+s;
-    }, 250);
-  }
-  function stopProgress(){ if(timer){ clearInterval(timer); timer=null; } }
-  function updateNow(){ $('nowTitle').textContent = (idx+1)+"/"+playlist.length+" · "+playlist[idx].title; }
-  function loadIndex(i, auto){
-    idx = i; updateNow();
-    try{
-      player.loadVideoById({videoId: playlist[idx].id, startSeconds: 0, suggestedQuality:"hd720"});
-      if(!auto) player.pauseVideo();
-    }catch(_){}
-  }
-  function next(auto){
-    if(shuffle){
-      let n; do{ n=Math.floor(Math.random()*playlist.length);} while(n===idx && playlist.length>1);
-      loadIndex(n,true); return;
-    }
-    if(idx<playlist.length-1){ loadIndex(idx+1,true); }
-    else if(loopAll){ loadIndex(0,true); }
-    else if(auto){ /* stop at end */ }
-  }
-  function prev(){ if(idx>0) loadIndex(idx-1,true); else loadIndex(playlist.length-1,true); }
-
-  $('play').onclick = function(){ try{ player.playVideo(); Alter.initAudio(); }catch(_){} };
-  $('pause').onclick = function(){ try{ player.pauseVideo(); }catch(_){} };
-  $('next').onclick = function(){ next(false); };
-  $('prev').onclick = prev;
-
-  const loopBtn=$('loop'), shuffleBtn=$('shuffle'), toneBtn=$('tone'), chantBtn=$('chant'), modeBtn=$('mode');
-  loopBtn.onclick = function(){
-    loopAll = !loopAll; loopBtn.setAttribute('aria-pressed',loopAll?'true':'false');
-    loopBtn.textContent = 'Loop All: ' + (loopAll?'On':'Off');
-    try{ localStorage.setItem('alter.fire.loop', loopAll?'1':'0'); }catch(_){}
-  };
-  shuffleBtn.onclick = function(){
-    shuffle = !shuffle; shuffleBtn.setAttribute('aria-pressed',shuffle?'true':'false');
-    shuffleBtn.textContent = 'Shuffle: ' + (shuffle?'On':'Off');
-    try{ localStorage.setItem('alter.fire.shuffle', shuffle?'1':'0'); }catch(_){}
-  };
-  toneBtn.onclick = function(){ Alter.toggleTone(); };
-  chantBtn.onclick = function(){ Alter.toggleChant(); };
-  modeBtn.onclick = function(){ Alter.toggleGroup(); };
-
-  // restore loop/shuffle prefs
+  // Persist loop/shuffle
   try{
     loopAll = localStorage.getItem('alter.fire.loop')==='1';
     shuffle = localStorage.getItem('alter.fire.shuffle')==='1';
-    loopBtn.setAttribute('aria-pressed',loopAll?'true':'false');
-    loopBtn.textContent = 'Loop All: ' + (loopAll?'On':'Off');
-    shuffleBtn.setAttribute('aria-pressed',shuffle?'true':'false');
-    shuffleBtn.textContent = 'Shuffle: ' + (shuffle?'On':'Off');
-  }catch(_){}
+    const loopBtn=$('loop'), shufBtn=$('shuffle');
+    loopBtn.setAttribute('aria-pressed',loopAll?'true':'false'); loopBtn.textContent='Loop All: '+(loopAll?'On':'Off');
+    shufBtn.setAttribute('aria-pressed',shuffle?'true':'false'); shufBtn.textContent='Shuffle: '+(shuffle?'On':'Off');
+  }catch(e){}
+
+  // Progress meter (best-effort visual using time estimate tick)
+  function tick(){
+    clearInterval(timer);
+    let t=0; timer=setInterval(()=>{ t=(t+0.3)%240; // just a gentle pulse proxy
+      prog.style.width = (t/240*100)+"%";
+      const m=Math.floor(t/60), s=("0"+Math.floor(t%60)).slice(-2);
+      time.textContent=m+":"+s;
+    },300);
+  }
+  tick();
+
+  // initial video
+  load(0);
 })();
 </script>
 </body>
