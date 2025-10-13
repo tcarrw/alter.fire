@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>ALTER · Fire · FEMENOMONOM — Ritual of Becoming</title>
-<meta name="description" content="alter.fire.plnt.earth — Pink-flame altar for metamorphosis. One-tap Start for video + silky tone. Group Flame mode included." />
+<meta name="description" content="alter.fire.plnt.earth — Pink-flame altar for metamorphosis. One-tap Start, background tone with sleep timer, Group Flame mode, official videos." />
 <meta name="theme-color" content="#0b0d11" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#0b0d11">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -57,12 +57,13 @@ h1{margin:0;font-size:20px;letter-spacing:.6px}
   -webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 18px rgba(255,79,182,.12)}
 .sub{color:var(--muted);font-size:14px;margin-top:-6px}
 .controls{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
-button{
+button,select{
   appearance:none;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.02);
   color:var(--ink);border-radius:12px;padding:10px 14px;font-weight:600;letter-spacing:.3px;
   transition:transform .08s ease,background .2s ease,border-color .2s ease;cursor:pointer;
 }
-button:hover{background:rgba(255,255,255,.06)}button:active{transform:translateY(1px)}
+select{font-weight:500}
+button:hover,select:hover{background:rgba(255,255,255,.06)}button:active{transform:translateY(1px)}
 .primary{background:linear-gradient(180deg,rgba(255,79,182,.2),rgba(185,140,255,.18));border-color:rgba(255,79,182,.35)}
 .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .meter{flex:1;min-width:200px;height:12px;background:rgba(255,255,255,.08);border-radius:999px;overflow:hidden;position:relative}
@@ -92,9 +93,9 @@ button:hover{background:rgba(255,255,255,.06)}button:active{transform:translateY
 <div id="startGate" role="dialog" aria-modal="true">
   <div class="startCard">
     <h2>Start the Flame</h2>
-    <p>One tap enables video on iPhone and starts the silky, sexy, rooted, airy tone.</p>
+    <p>One tap enables video on iPhone and starts the silky, sexy, rooted, airy <b>background tone</b> (screen-off safe).</p>
     <button id="startBtn" class="primary">Start</button>
-    <div class="mini" style="margin-top:8px">You can toggle the tone / chant / group pulse anytime.</div>
+    <div class="mini" style="margin-top:8px">You can toggle Group Pulse, presets, and sleep timer anytime.</div>
   </div>
 </div>
 
@@ -119,9 +120,15 @@ button:hover{background:rgba(255,255,255,.06)}button:active{transform:translateY
       <button id="next">Next ⟶</button>
       <button id="loop" aria-pressed="false">Loop All: Off</button>
       <button id="shuffle" aria-pressed="false">Shuffle: Off</button>
-      <button id="mode" aria-pressed="false" title="Toggle Group Flame (134 Hz + 2 Hz pulse)">Group Flame: Off</button>
-      <button id="tone" aria-pressed="false">Tone: Off</button>
-      <button id="chant" aria-pressed="false">Chant: Off</button>
+      <button id="mode" aria-pressed="false" title="Toggle Group Flame (2 Hz pulse)">Group Flame: Off</button>
+      <button id="bgToggle" aria-pressed="false" title="Play background tone (screen-off safe)">Background Tone: Off</button>
+      <select id="sleep" title="Sleep Timer">
+        <option value="0">Sleep: Off</option>
+        <option value="15">Sleep in 15m</option>
+        <option value="30">Sleep in 30m</option>
+        <option value="45">Sleep in 45m</option>
+        <option value="60">Sleep in 60m</option>
+      </select>
     </div>
 
     <div class="row" aria-label="Progress">
@@ -135,7 +142,7 @@ button:hover{background:rgba(255,255,255,.06)}button:active{transform:translateY
       <div style="position:relative;width:100%;aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:#000">
         <div id="ytHolder" style="width:100%;height:100%"></div>
       </div>
-      <div class="mini" style="margin-top:6px">If you see the thumbnail but no sound, tap the video once to focus, then tap ▶.</div>
+      <div class="mini" style="margin-top:6px">Note: YouTube pauses with screen off (Apple policy). Use <b>Background Tone</b> for the dream ritual.</div>
     </div>
 
     <div class="card">
@@ -181,18 +188,19 @@ button:hover{background:rgba(255,255,255,.06)}button:active{transform:translateY
     </div>
 
     <div class="footer">
-      One-tap Start is required by iOS to enable video + audio. Your settings save locally. Enjoy. 💗
+      One-tap Start is required by iOS to enable video + audio. YouTube pauses when the display locks; the <b>Background Tone</b> keeps playing with screen off. Sleep well. 💗
     </div>
   </section>
 </div>
 
+<!-- Hidden audio for background screen-off playback -->
+<audio id="bgAudio" loop preload="auto"></audio>
+
 <script>
 /* -----------------------------
-   START GATE: one tap initializes BOTH
-   - WebAudio (tone)
-   - YouTube IFrame API (muted autoplay → soft unmute)
+   One-tap START: init YouTube + setup background tone
 --------------------------------*/
-let PLAYER, YT_READY=false, STARTED=false, idx=0;
+let PLAYER, STARTED=false, idx=0;
 const videos = [
   { t:"HOT TO GO! (Official Music Video)", id:"xaPNR-_Cfn0", url:"https://www.youtube.com/watch?v=xaPNR-_Cfn0" },
   { t:"Femininomenon (Music Video)",       id:"v_r-M4jhGJA", url:"https://www.youtube.com/watch?v=v_r-M4jhGJA" },
@@ -210,42 +218,30 @@ function loadYTAPI(){
 window.onYouTubeIframeAPIReady = onYTReady;
 
 function onYTReady(){
-  YT_READY=true;
   PLAYER = new YT.Player('ytHolder', {
     videoId: videos[0].id,
-    playerVars: {
-      rel:0, modestbranding:1, playsinline:1, controls:1,
-      autoplay:1, mute:1, loop:1, playlist: videos.map(v=>v.id).join(',')
-    },
+    playerVars: { rel:0, modestbranding:1, playsinline:1, controls:1, autoplay:1, mute:1, loop:1, playlist: videos.map(v=>v.id).join(',') },
     events: { onReady:onPlayerReady, onStateChange:onPlayerState }
   });
 }
-function onPlayerReady(){
-  try { PLAYER.playVideo(); } catch(e){}
-  $('nowTitle').textContent = "1/"+videos.length+" · "+videos[0].t;
-}
-function onPlayerState(e){
-  if(e.data === YT.PlayerState.PLAYING){
-    setTimeout(()=>{ try{ PLAYER.unMute(); PLAYER.setVolume(80); }catch(e){} }, 300);
-    startProgress();
-  }
-}
+function onPlayerReady(){ try{ PLAYER.playVideo(); }catch(e){} $('nowTitle').textContent = "1/"+videos.length+" · "+videos[0].t; }
+function onPlayerState(e){ if(e.data===YT.PlayerState.PLAYING){ setTimeout(()=>{ try{ PLAYER.unMute(); PLAYER.setVolume(80);}catch(e){} }, 300); startProgress(); } }
 
-// progress tick (visual proxy)
+// progress bar (best-effort)
 let timer=null;
 function startProgress(){
   clearInterval(timer);
   timer=setInterval(()=>{
     let t=0,d=0;
     try{ t=PLAYER.getCurrentTime()||0; d=PLAYER.getDuration()||0; }catch(e){}
-    const pct = d? (t/d*100) : 0;
+    const pct = d? (t/d*100):0;
     $('prog').style.width = Math.min(100,Math.max(0,pct))+'%';
     const m=Math.floor(t/60), s=("0"+Math.floor(t%60)).slice(-2);
     $('timecode').textContent = m+":"+s;
   },250);
 }
 
-// transport
+// Transport
 function loadIndex(i, auto=true){
   idx=i;
   $('nowTitle').textContent = (idx+1)+"/"+videos.length+" · "+videos[idx].t;
@@ -256,10 +252,10 @@ function loadIndex(i, auto=true){
 }
 $('next').onclick = ()=>{ if(idx<videos.length-1) loadIndex(idx+1,true); else loadIndex(0,true); };
 $('prev').onclick = ()=>{ if(idx>0) loadIndex(idx-1,true); else loadIndex(videos.length-1,true); };
-$('play').onclick = ()=>{ try{ PLAYER.playVideo(); Alter.resume(); }catch(e){} };
+$('play').onclick = ()=>{ try{ PLAYER.playVideo(); }catch(e){} };
 $('pause').onclick= ()=>{ try{ PLAYER.pauseVideo(); }catch(e){} };
 
-// deck
+// Deck
 (function mountDeck(){
   const deck = $('deck');
   videos.forEach((v,k)=>{
@@ -270,144 +266,193 @@ $('pause').onclick= ()=>{ try{ PLAYER.pauseVideo(); }catch(e){} };
   });
 })();
 
-// loop / shuffle toggles
+// loop/shuffle UI only (YouTube loop is handled by playlist param)
 let loopAll=false, shuffle=false;
 $('loop').onclick = function(){ loopAll=!loopAll; this.textContent='Loop All: '+(loopAll?'On':'Off'); this.setAttribute('aria-pressed',loopAll?'true':'false'); };
 $('shuffle').onclick = function(){ shuffle=!shuffle; this.textContent='Shuffle: '+(shuffle?'On':'Off'); this.setAttribute('aria-pressed',shuffle?'true':'false'); };
 
-// START gate — single tap unlocks both video & WebAudio
-$('startBtn').onclick = ()=>{
-  if(STARTED) return;
-  STARTED = true;
-  Alter.initAudio();        // starts tone ON by default
-  loadYTAPI();              // creates muted autoplay player
+// Start gate
+$('startBtn').onclick = async ()=>{
+  if(STARTED) return; STARTED=true;
+  await BackgroundTone.init(); // prepare audio element & first loop
+  loadYTAPI();                 // create muted autoplay player
   $('startGate').style.display='none';
 };
-</script>
 
-<script>
 /* -----------------------------
-   Silky · Sexy · Rooted · Airy
-   WebAudio Tone Engine v2
-   - base sine
-   - 2 Hz group pulse (toggle via Group Flame)
-   - airy shimmer (short delay)
-   - warm lowpass
-   - badge for state
+   BACKGROUND TONE ENGINE (screen-off safe)
+   - Generates a seamless 8s WAV loop (AM pulse if Group Flame on)
+   - Loads into hidden <audio> element and plays/loops
+   - Sleep timer support
 --------------------------------*/
-const ToneBadge = document.getElementById('toneBadge');
+const ToneBadge = $('toneBadge');
+const bgAudio = $('bgAudio');
+let groupPulse = false;
+let targetHz = 128;
+let sleepTimer = null;
 
-const Alter = (function(){
-  let ctx, master, tone, gain, lfo, lfoDepth, delay, delayGain, lp;
-  let toneOn=false, chantOn=false, group=false;
-  let chantGain, chantSrc;
-  let hz = 128;
-
-  function ensureCtx(){
-    if(!ctx){
-      ctx=new (window.AudioContext||window.webkitAudioContext)();
-      master=ctx.createGain(); master.gain.value=.75; master.connect(ctx.destination);
-
-      // tone chain
-      tone=ctx.createOscillator(); tone.type='sine'; tone.frequency.value=hz;
-      gain=ctx.createGain(); gain.gain.value=0.0;
-
-      // shimmer (short delay as air)
-      delay=ctx.createDelay(0.2); delay.delayTime.value=0.028;
-      delayGain=ctx.createGain(); delayGain.gain.value=0.12;
-
-      // warmth filter
-      lp=ctx.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=2600; lp.Q.value=0.2;
-
-      // group pulse
-      lfo=ctx.createOscillator(); lfo.type='sine'; lfo.frequency.value=2;
-      lfoDepth=ctx.createGain(); lfoDepth.gain.value=0.0;
-      lfo.connect(lfoDepth).connect(gain.gain);
-
-      tone.connect(lp);
-      lp.connect(gain).connect(master);
-      lp.connect(delay).connect(delayGain).connect(master);
-
-      tone.start(); lfo.start();
-
-      // chant (band-limited noise)
-      const size=2*ctx.sampleRate, buf=ctx.createBuffer(1,size,ctx.sampleRate), data=buf.getChannelData(0);
-      for(let i=0;i<size;i++) data[i]=(Math.random()*2-1)*.18;
-      chantSrc=ctx.createBufferSource(); chantSrc.buffer=buf; chantSrc.loop=true;
-      const bp=ctx.createBiquadFilter(); bp.type='bandpass'; bp.frequency.value=330; bp.Q.value=6;
-      chantGain=ctx.createGain(); chantGain.gain.value=0.0;
-      const slfo=ctx.createOscillator(); const sdepth=ctx.createGain(); slfo.type='sine'; slfo.frequency.value=.85; sdepth.gain.value=.18;
-      slfo.connect(sdepth).connect(chantGain.gain); slfo.start();
-      chantSrc.connect(bp).connect(chantGain).connect(master); chantSrc.start();
-
-      // monitor context state for badge
-      ctx.onstatechange = ()=> setBadge(ctx.state === 'running' ? (toneOn?'on':'off') : 'warn');
+const BackgroundTone = (function(){
+  const sr = 44100;          // sample rate
+  const loopSec = 8;         // loop length
+  function makeLoop(hz, withPulse){
+    const n = Math.floor(sr*loopSec);
+    const left = new Float32Array(n);
+    const right= new Float32Array(n);
+    const amp = 0.22;        // headroom
+    for(let i=0;i<n;i++){
+      const t = i/sr;
+      const lfo = withPulse ? (0.5+0.5*Math.sin(2*Math.PI*2*t)) : 1.0; // 2 Hz pulse
+      const s = Math.sin(2*Math.PI*hz*t) * amp * lfo;
+      // slight airy width with tiny phase offset
+      left[i]  = s;
+      right[i] = Math.sin(2*Math.PI*hz*t + 0.003) * amp * lfo;
     }
+    return encodeWavStereo(left,right,sr);
   }
-  function resume(){ if(ctx && ctx.state==='suspended'){ ctx.resume(); } }
 
-  function setBadge(state){
-    if(state==='on'){ ToneBadge.textContent='Tone: On'; ToneBadge.className='badge ok'; }
-    else if(state==='warn'){ ToneBadge.textContent='Tone: Suspended'; ToneBadge.className='badge warn'; }
+  function encodeWavStereo(L, R, sampleRate){
+    // 16-bit PCM WAV
+    const n = L.length;
+    const bytesPerSample = 2;
+    const blockAlign = 2*bytesPerSample;
+    const byteRate = sampleRate * blockAlign;
+    const dataSize = n * blockAlign;
+    const buffer = new ArrayBuffer(44 + dataSize);
+    const view = new DataView(buffer);
+
+    // RIFF header
+    writeAscii(view,0,'RIFF');
+    view.setUint32(4, 36 + dataSize, true);
+    writeAscii(view,8,'WAVE');
+
+    // fmt chunk
+    writeAscii(view,12,'fmt ');
+    view.setUint32(16,16,true);
+    view.setUint16(20,1,true);           // PCM
+    view.setUint16(22,2,true);           // channels
+    view.setUint32(24,sampleRate,true);
+    view.setUint32(28,byteRate,true);
+    view.setUint16(32,blockAlign,true);
+    view.setUint16(34,16,true);          // bits
+
+    // data chunk
+    writeAscii(view,36,'data');
+    view.setUint32(40,dataSize,true);
+
+    // interleave
+    let offset = 44;
+    for(let i=0;i<n;i++){
+      view.setInt16(offset,  Math.max(-1,Math.min(1,L[i]))*0x7FFF, true); offset+=2;
+      view.setInt16(offset,  Math.max(-1,Math.min(1,R[i]))*0x7FFF, true); offset+=2;
+    }
+    return new Blob([view], {type:'audio/wav'});
+  }
+  function writeAscii(view, offset, s){ for(let i=0;i<s.length;i++) view.setUint8(offset+i, s.charCodeAt(i)); }
+
+  async function init(){
+    await refreshLoop(); // generate and load first buffer
+    // Setup Media Session for lockscreen controls
+    if('mediaSession' in navigator){
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: 'Alter · Background Tone',
+        artist: 'Illumina',
+        album: 'Fire Field',
+      });
+      navigator.mediaSession.setActionHandler('play', ()=> bgPlay());
+      navigator.mediaSession.setActionHandler('pause',()=> bgPause());
+      navigator.mediaSession.setActionHandler('stop', ()=> bgPause());
+    }
+    setBadge(false); // not playing yet
+  }
+
+  async function refreshLoop(){
+    const blob = makeLoop(targetHz, groupPulse);
+    const src = URL.createObjectURL(blob);
+    const wasPlaying = !bgAudio.paused;
+    const currentTime = bgAudio.currentTime;
+    bgAudio.src = src;
+    bgAudio.loop = true;
+    bgAudio.preload = 'auto';
+    try{
+      if(wasPlaying){
+        await bgAudio.play();
+        bgAudio.currentTime = currentTime % loopSec;
+      }
+    }catch(e){}
+  }
+
+  function setBadge(on){
+    if(on){ ToneBadge.textContent='Tone: On (Background)'; ToneBadge.className='badge ok'; }
     else { ToneBadge.textContent='Tone: Off'; ToneBadge.className='badge bad'; }
   }
 
-  function setTone(on){
-    ensureCtx(); resume();
-    toneOn=!!on;
-    gain.gain.setTargetAtTime(toneOn? (group? .16:.12):0, ctx.currentTime, .12);
-    setBadge(toneOn? 'on' : (ctx && ctx.state!=='running' ? 'warn' : 'off'));
+  async function bgPlay(){
+    try{
+      await bgAudio.play();
+      setBadge(true);
+      document.getElementById('bgToggle').setAttribute('aria-pressed','true');
+      document.getElementById('bgToggle').textContent = 'Background Tone: On';
+    }catch(e){
+      ToneBadge.textContent='Tone: Suspended'; ToneBadge.className='badge warn';
+    }
   }
-  function setChant(on){
-    ensureCtx(); resume();
-    chantOn=!!on;
-    chantGain.gain.setTargetAtTime(chantOn? .18:0, ctx.currentTime, .15);
-  }
-  function setGroup(on){
-    ensureCtx(); resume();
-    group=!!on;
-    lfoDepth.gain.setTargetAtTime(group? .25:0, ctx.currentTime, .12);
-    setTone(toneOn); // adjust headroom
-    document.getElementById('mode').textContent='Group Flame: '+(group?'On':'Off');
-    document.getElementById('mode').setAttribute('aria-pressed',group?'true':'false');
-    document.getElementById('modeTag').textContent = group? 'Group Flame · Ritual of Becoming':'Ritual of Becoming';
-    document.getElementById('altar').classList.toggle('mode-on', group);
-    document.documentElement.style.setProperty('--pulse', group?1:0);
-  }
-  function setHz(v){
-    ensureCtx(); resume();
-    hz=v; tone.frequency.setTargetAtTime(hz, ctx.currentTime, .08);
-    document.getElementById('hzLabel').textContent = hz.toFixed(1);
-    document.getElementById('hz').value = hz.toFixed(1);
+  function bgPause(){
+    bgAudio.pause();
+    setBadge(false);
+    document.getElementById('bgToggle').setAttribute('aria-pressed','false');
+    document.getElementById('bgToggle').textContent = 'Background Tone: Off';
   }
 
-  // public API
-  return {
-    initAudio(){ ensureCtx(); setHz(128); setGroup(false); setTone(true); },
-    toggleTone(){ setTone(!toneOn); },
-    toggleChant(){ setChant(!chantOn); },
-    toggleGroup(){ setGroup(!group); },
-    setHz,
-    resume
-  };
+  return { init, refreshLoop, bgPlay, bgPause };
 })();
 
-// Tone tuner UI
+// Background tone controls
+document.getElementById('bgToggle').onclick = async ()=>{
+  if(bgAudio.paused){ await BackgroundTone.bgPlay(); } else { BackgroundTone.bgPause(); }
+};
+// Sleep timer
+document.getElementById('sleep').onchange = ()=>{
+  if(sleepTimer){ clearTimeout(sleepTimer); sleepTimer=null; }
+  const mins = parseInt(document.getElementById('sleep').value,10)||0;
+  if(mins>0){
+    sleepTimer = setTimeout(()=>{
+      BackgroundTone.bgPause();
+      try{ PLAYER && PLAYER.pauseVideo(); }catch(e){}
+    }, mins*60*1000);
+  }
+};
+
+// Tone tuner: when you change freq or Group, regenerate the background loop
 document.querySelectorAll('[data-hz]').forEach(btn=>{
-  btn.addEventListener('click', ()=> Alter.setHz(parseFloat(btn.getAttribute('data-hz'))));
+  btn.addEventListener('click', ()=>{
+    targetHz = parseFloat(btn.getAttribute('data-hz')); 
+    document.getElementById('hzLabel').textContent = targetHz.toFixed(1);
+    document.getElementById('hz').value = targetHz.toFixed(1);
+    BackgroundTone.refreshLoop();
+  });
 });
-document.getElementById('hz').addEventListener('input', e=> Alter.setHz(parseFloat(e.target.value)));
+document.getElementById('hz').addEventListener('input', e=>{
+  targetHz = parseFloat(e.target.value);
+  document.getElementById('hzLabel').textContent = targetHz.toFixed(1);
+  BackgroundTone.refreshLoop();
+});
 
-// Keep audio running after tab changes on iOS
-document.addEventListener('visibilitychange', ()=>{ if(document.visibilityState==='visible'){ Alter.resume(); }});
-window.addEventListener('touchend', ()=> Alter.resume(), {passive:true});
-window.addEventListener('click',   ()=> Alter.resume(), {passive:true});
-window.addEventListener('pageshow',()=> Alter.resume());
+// Group pulse toggles the AM in the rendered loop
+document.getElementById('mode').onclick = ()=>{
+  groupPulse = !groupPulse;
+  document.getElementById('mode').textContent = 'Group Flame: ' + (groupPulse?'On':'Off');
+  document.getElementById('mode').setAttribute('aria-pressed', groupPulse?'true':'false');
+  document.getElementById('modeTag').textContent = groupPulse? 'Group Flame · Ritual of Becoming':'Ritual of Becoming';
+  document.getElementById('altar').classList.toggle('mode-on', groupPulse);
+  document.documentElement.style.setProperty('--pulse', groupPulse?1:0);
+  BackgroundTone.refreshLoop();
+};
 
-// Control buttons hooking to Alter
-document.getElementById('mode').onclick = ()=> Alter.toggleGroup();
-document.getElementById('tone').onclick = ()=> Alter.toggleTone();
-document.getElementById('chant').onclick= ()=> Alter.toggleChant();
+// Keep audio resilient
+document.addEventListener('visibilitychange', ()=>{ /* background tone is element-based and keeps going */ });
+window.addEventListener('pageshow',()=>{ /* noop */ });
+
+// START button also primes a first loop for immediate play if user toggles Background Tone
 </script>
 </body>
 </html>
