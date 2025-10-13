@@ -4,15 +4,24 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>ALTER · Fire · FEMENOMONOM — Ritual of Becoming</title>
-<meta name="description" content="alter.fire.plnt.earth — A pink-flame altar for metamorphosis. Group Flame mode + official Chappell Roan videos." />
+<meta name="description" content="alter.fire.plnt.earth — Pink-flame altar for metamorphosis. One-tap Start for video + silky tone. Group Flame mode included." />
 <meta name="theme-color" content="#0b0d11" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#0b0d11">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<!-- Hidden Marina blessing (not related to Chappell site) -->
+<!-- MARINA NEW YEAR NOTE:
+May your new year open like a pearl at sunrise — gentle, bright, and completely yours.
+You are safe, guided, and loved. The field holds you. —T
+-->
+<meta name="marina-new-year" content="A gentle sunrise pearl: safe, guided, loved. —T" />
+
 <style>
 :root{
   --bg:#0b0d11;--ink:#f7f4fb;--muted:#c9c4d6;--card:#120c1b;
-  --hot:#ff4fb6;--ember:#f28a2e;--violet:#b98cff;--rose:#ff85ce;--gold:#ffd26f;--pulse:0
+  --hot:#ff4fb6;--ember:#f28a2e;--violet:#b98cff;--rose:#ff85ce;--gold:#ffd26f;
+  --ok:#8ef7b1;--warn:#ffd26f;--bad:#ff6b6b;--pulse:0;
 }
 *{box-sizing:border-box}
 html,body{height:100%}
@@ -23,7 +32,7 @@ body{
     linear-gradient(180deg,#0b0d11 0%,#0b0d11 60%,#0a0a12 100%);
   color:var(--ink);
   font:400 16px/1.55 ui-sans-serif,system-ui,-apple-system,Inter,Roboto,"Helvetica Neue",Arial;
-  letter-spacing:.2px;overflow-x:hidden
+  letter-spacing:.2px;overflow-x:hidden;
 }
 .wrap{max-width:960px;margin:0 auto;padding:24px}
 header{display:flex;align-items:center;gap:14px}
@@ -48,8 +57,11 @@ h1{margin:0;font-size:20px;letter-spacing:.6px}
   -webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 18px rgba(255,79,182,.12)}
 .sub{color:var(--muted);font-size:14px;margin-top:-6px}
 .controls{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
-button{appearance:none;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.02);
-  color:var(--ink);border-radius:12px;padding:10px 14px;font-weight:600;letter-spacing:.3px;transition:transform .08s ease,background .2s ease,border-color .2s ease;cursor:pointer}
+button{
+  appearance:none;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.02);
+  color:var(--ink);border-radius:12px;padding:10px 14px;font-weight:600;letter-spacing:.3px;
+  transition:transform .08s ease,background .2s ease,border-color .2s ease;cursor:pointer;
+}
 button:hover{background:rgba(255,255,255,.06)}button:active{transform:translateY(1px)}
 .primary{background:linear-gradient(180deg,rgba(255,79,182,.2),rgba(185,140,255,.18));border-color:rgba(255,79,182,.35)}
 .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
@@ -64,16 +76,34 @@ button:hover{background:rgba(255,255,255,.06)}button:active{transform:translateY
 .links a:hover{color:var(--gold)}
 .note{font-size:14px;line-height:1.5;color:var(--ink);background:rgba(255,255,255,.03);border-radius:12px;padding:12px;border:1px solid rgba(255,255,255,.08)}
 .mode-on{box-shadow:0 0 0 1px rgba(255,210,111,.4) inset,0 0 24px rgba(242,138,46,.25)}
+.badge{display:inline-block;padding:4px 8px;border-radius:999px;font-size:12px;border:1px solid rgba(255,255,255,.12);margin-left:8px}
+.badge.ok{color:#0b0d11;background:var(--ok);border-color:rgba(0,0,0,.08)}
+.badge.warn{color:#0b0d11;background:var(--warn)}
+.badge.bad{background:rgba(255,107,107,.2);color:#ffdede;border-color:rgba(255,107,107,.6)}
+#startGate{position:fixed;inset:0;background:rgba(11,13,17,.92);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;z-index:40}
+.startCard{max-width:520px;margin:20px;background:linear-gradient(180deg,rgba(255,79,182,.08),rgba(185,140,255,.07));
+  border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:18px;text-align:center}
+.startCard h2{margin:0 0 8px}
+.startCard p{color:var(--muted);margin:6px 0 12px}
 @media(max-width:480px){.mantra{font-size:22px}.wrap{padding:18px}}
 </style>
 </head>
 <body>
+<div id="startGate" role="dialog" aria-modal="true">
+  <div class="startCard">
+    <h2>Start the Flame</h2>
+    <p>One tap enables video on iPhone and starts the silky, sexy, rooted, airy tone.</p>
+    <button id="startBtn" class="primary">Start</button>
+    <div class="mini" style="margin-top:8px">You can toggle the tone / chant / group pulse anytime.</div>
+  </div>
+</div>
+
 <div class="wrap">
   <header>
     <div class="glyph" aria-hidden="true"></div>
     <div>
       <h1>ALTER · Fire <span class="tag" id="modeTag">Ritual of Becoming</span></h1>
-      <div class="mini">Illumina Field • Subdomain: <strong>alter.fire.plnt.earth</strong></div>
+      <div class="mini">Illumina Field • Subdomain: <strong>alter.fire.plnt.earth</strong> <span id="toneBadge" class="badge bad">Tone: Off</span></div>
     </div>
   </header>
 
@@ -82,19 +112,19 @@ button:hover{background:rgba(255,255,255,.06)}button:active{transform:translateY
     <div class="mantra" id="mantraText">I’m hot to go — FEMENOMONOM.</div>
     <div class="sub" id="subText">Change as sacrament · Spectacle as prayer · Every costume is a confession.</div>
 
-    <div class="controls" role="group" aria-label="Player Controls">
-      <button class="primary" id="play">Play</button>
-      <button id="pause">Pause</button>
-      <button id="prev">Prev</button>
-      <button id="next">Next</button>
+    <div class="controls" role="group" aria-label="Controls">
+      <button class="primary" id="play">Play ▶</button>
+      <button id="pause">Pause ⏸</button>
+      <button id="prev">Prev ⟵</button>
+      <button id="next">Next ⟶</button>
       <button id="loop" aria-pressed="false">Loop All: Off</button>
       <button id="shuffle" aria-pressed="false">Shuffle: Off</button>
+      <button id="mode" aria-pressed="false" title="Toggle Group Flame (134 Hz + 2 Hz pulse)">Group Flame: Off</button>
       <button id="tone" aria-pressed="false">Tone: Off</button>
       <button id="chant" aria-pressed="false">Chant: Off</button>
-      <button id="mode" aria-pressed="false" title="Toggle Group Flame (134 Hz + 2 Hz pulse)">Group Flame: Off</button>
     </div>
 
-    <div class="row">
+    <div class="row" aria-label="Progress">
       <div class="pill" id="nowTitle">—</div>
       <div class="meter" id="meter"><i id="prog"></i></div>
       <div class="pill" id="timecode">0:00</div>
@@ -103,22 +133,31 @@ button:hover{background:rgba(255,255,255,.06)}button:active{transform:translateY
     <div class="card" id="playerCard">
       <div class="mini">Video Player (official uploads)</div>
       <div style="position:relative;width:100%;aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:#000">
-        <iframe id="yt"
-          src=""
-          title="Chappell Roan"
-          allow="accelerometer; autoplay; encrypted-media; picture-in-picture; web-share"
-          allowfullscreen
-          loading="lazy"
-          referrerpolicy="strict-origin-when-cross-origin"
-          style="width:100%;height:100%;border:0;display:block"></iframe>
+        <div id="ytHolder" style="width:100%;height:100%"></div>
       </div>
-      <div class="mini" style="margin-top:6px">If playback stalls on iOS, tap <b>Play</b> first, then hit ▶ in the video.</div>
+      <div class="mini" style="margin-top:6px">If you see the thumbnail but no sound, tap the video once to focus, then tap ▶.</div>
     </div>
 
     <div class="card">
-      <h3>Fire Setlist · Chappell Roan</h3>
-      <p>Tap any to jump. Uses official videos/lyric videos for reliability.</p>
+      <h3>Setlist · Chappell Roan</h3>
+      <p>Tap any to jump. Official videos where possible.</p>
       <div id="deck"></div>
+    </div>
+
+    <div class="card">
+      <h3>Tone Tuner</h3>
+      <p class="mini">Silky · Sexy · Rooted · Airy — choose your vibe</p>
+      <div class="controls">
+        <button data-hz="111">111 Ground</button>
+        <button data-hz="128">128 Align</button>
+        <button data-hz="134">134 Group</button>
+        <button data-hz="136">136 Om</button>
+        <button data-hz="144">144 Bright</button>
+      </div>
+      <div class="row" style="gap:12px;margin-top:8px">
+        <input id="hz" type="range" min="100" max="160" step="0.1" value="128" style="flex:1"/>
+        <div class="pill"><span id="hzLabel">128.0</span> Hz</div>
+      </div>
     </div>
 
     <div class="card">
@@ -142,160 +181,233 @@ button:hover{background:rgba(255,255,255,.06)}button:active{transform:translateY
     </div>
 
     <div class="footer">
-      Tip: First tap <b>Play</b> to initialize audio. Toggle <b>Group Flame</b> for 134 Hz + 2 Hz communal pulse.
-      Settings save locally. If a video won’t play, tap its title to <b>open on YouTube</b>.
+      One-tap Start is required by iOS to enable video + audio. Your settings save locally. Enjoy. 💗
     </div>
   </section>
 </div>
 
-<!-- WebAudio: tone + chant + Group Flame -->
 <script>
-(function(){
-  let ctx, master, toneOsc, toneGain, chantGain, ampLFO, ampDepth;
-  let toneOn=false, chantOn=false, groupMode=false, baseHz=128;
+/* -----------------------------
+   START GATE: one tap initializes BOTH
+   - WebAudio (tone)
+   - YouTube IFrame API (muted autoplay → soft unmute)
+--------------------------------*/
+let PLAYER, YT_READY=false, STARTED=false, idx=0;
+const videos = [
+  { t:"HOT TO GO! (Official Music Video)", id:"xaPNR-_Cfn0", url:"https://www.youtube.com/watch?v=xaPNR-_Cfn0" },
+  { t:"Femininomenon (Music Video)",       id:"v_r-M4jhGJA", url:"https://www.youtube.com/watch?v=v_r-M4jhGJA" },
+  { t:"Red Wine Supernova (Magician's Cut)", id:"VS6ixn2berk", url:"https://www.youtube.com/watch?v=VS6ixn2berk" },
+  { t:"Good Luck, Babe! (Official Lyric Video)", id:"1RKqOmSkGgM", url:"https://www.youtube.com/watch?v=1RKqOmSkGgM" }
+];
+const $ = id=>document.getElementById(id);
 
-  function resumeCtx(){ if(ctx && ctx.state==='suspended'){ ctx.resume(); } }
+function loadYTAPI(){
+  if(window.YT && window.YT.Player){ onYTReady(); return; }
+  const s=document.createElement("script");
+  s.src="https://www.youtube.com/iframe_api";
+  document.body.appendChild(s);
+}
+window.onYouTubeIframeAPIReady = onYTReady;
 
-  function initAudio(){
-    if(ctx) return;
-    ctx=new (window.AudioContext||window.webkitAudioContext)();
-    master=ctx.createGain(); master.gain.value=.7; master.connect(ctx.destination);
-
-    // Tone oscillator
-    toneOsc=ctx.createOscillator(); toneOsc.type="sine"; toneOsc.frequency.value=baseHz;
-    toneGain=ctx.createGain(); toneGain.gain.value=0.0; toneOsc.connect(toneGain).connect(master); toneOsc.start();
-
-    // Amplitude LFO for Group Flame heartbeat
-    ampLFO=ctx.createOscillator(); ampLFO.type="sine"; ampLFO.frequency.value=2; // communal pulse
-    ampDepth=ctx.createGain(); ampDepth.gain.value=0.0; // off by default
-    ampLFO.connect(ampDepth).connect(toneGain.gain); ampLFO.start();
-
-    // Chant: band-limited noise + slow syllabic LFO
-    const size = 2*ctx.sampleRate, buf = ctx.createBuffer(1,size,ctx.sampleRate), data = buf.getChannelData(0);
-    for(let i=0;i<size;i++) data[i] = (Math.random()*2-1)*.2;
-    const src = ctx.createBufferSource(); src.buffer=buf; src.loop=true;
-    const bp = ctx.createBiquadFilter(); bp.type="bandpass"; bp.frequency.value=330; bp.Q.value=6;
-    chantGain = ctx.createGain(); chantGain.gain.value = 0.0;
-    const lfo = ctx.createOscillator(); lfo.type="sine"; lfo.frequency.value=.85;
-    const lfoGain = ctx.createGain(); lfoGain.gain.value=.18;
-    lfo.connect(lfoGain).connect(chantGain.gain); lfo.start();
-    src.connect(bp).connect(chantGain).connect(master); src.start();
-
-    // restore persisted toggles
-    try{
-      const savedMode = localStorage.getItem('alter.fire.groupMode')==='1';
-      const savedTone = localStorage.getItem('alter.fire.tone')==='1';
-      const savedChant= localStorage.getItem('alter.fire.chant')==='1';
-      setGroupMode(savedMode);
-      setTone(savedTone);
-      setChant(savedChant);
-      updateBtn('tone', savedTone); updateBtn('chant', savedChant);
-    }catch(e){}
+function onYTReady(){
+  YT_READY=true;
+  PLAYER = new YT.Player('ytHolder', {
+    videoId: videos[0].id,
+    playerVars: {
+      rel:0, modestbranding:1, playsinline:1, controls:1,
+      autoplay:1, mute:1, loop:1, playlist: videos.map(v=>v.id).join(',')
+    },
+    events: { onReady:onPlayerReady, onStateChange:onPlayerState }
+  });
+}
+function onPlayerReady(){
+  try { PLAYER.playVideo(); } catch(e){}
+  $('nowTitle').textContent = "1/"+videos.length+" · "+videos[0].t;
+}
+function onPlayerState(e){
+  if(e.data === YT.PlayerState.PLAYING){
+    setTimeout(()=>{ try{ PLAYER.unMute(); PLAYER.setVolume(80); }catch(e){} }, 300);
+    startProgress();
   }
+}
 
-  function setTone(on){ toneOn=!!on; if(!ctx) return; resumeCtx(); toneGain.gain.setTargetAtTime(toneOn? (groupMode? .15:.12):0, ctx.currentTime, .15); }
-  function setChant(on){ chantOn=!!on; if(!ctx) return; resumeCtx(); chantGain.gain.setTargetAtTime(chantOn? .18:0, ctx.currentTime, .2); }
-  function setGroupMode(on){
-    groupMode=!!on; baseHz = groupMode?134:128;
-    if(ctx){ resumeCtx(); toneOsc.frequency.setTargetAtTime(baseHz, ctx.currentTime, .08); ampDepth.gain.setTargetAtTime(groupMode?.25:0, ctx.currentTime, .12); if(toneOn) setTone(true); }
-    document.getElementById('mode').setAttribute('aria-pressed', groupMode?'true':'false');
-    document.getElementById('mode').textContent='Group Flame: '+(groupMode?'On':'Off');
-    document.getElementById('modeTag').textContent=groupMode? 'Group Flame · Ritual of Becoming':'Ritual of Becoming';
-    document.getElementById('altar').classList.toggle('mode-on', groupMode);
-    document.documentElement.style.setProperty('--pulse', groupMode?1:0);
-    try{ localStorage.setItem('alter.fire.groupMode', groupMode?'1':'0'); }catch(e){}
-  }
-  function updateBtn(id,on){
-    const b=document.getElementById(id);
-    b.setAttribute('aria-pressed', on?'true':'false');
-    b.textContent = (id==='tone'?'Tone':'Chant')+': '+(on?'On':'Off');
-    try{ localStorage.setItem('alter.fire.'+id, on?'1':'0'); }catch(e){}
-  }
+// progress tick (visual proxy)
+let timer=null;
+function startProgress(){
+  clearInterval(timer);
+  timer=setInterval(()=>{
+    let t=0,d=0;
+    try{ t=PLAYER.getCurrentTime()||0; d=PLAYER.getDuration()||0; }catch(e){}
+    const pct = d? (t/d*100) : 0;
+    $('prog').style.width = Math.min(100,Math.max(0,pct))+'%';
+    const m=Math.floor(t/60), s=("0"+Math.floor(t%60)).slice(-2);
+    $('timecode').textContent = m+":"+s;
+  },250);
+}
 
-  // Expose handlers
-  window.AlterAudio={
-    init:()=>{initAudio();resumeCtx();},
-    tone:()=>{initAudio(); setTone(!toneOn); updateBtn('tone',toneOn);},
-    chant:()=>{initAudio(); setChant(!chantOn); updateBtn('chant',chantOn);},
-    mode:()=>{initAudio(); setGroupMode(!groupMode);}
-  };
+// transport
+function loadIndex(i, auto=true){
+  idx=i;
+  $('nowTitle').textContent = (idx+1)+"/"+videos.length+" · "+videos[idx].t;
+  try{
+    PLAYER.loadVideoById({videoId: videos[idx].id, startSeconds:0, suggestedQuality:"hd720"});
+    if(!auto) PLAYER.pauseVideo();
+  }catch(e){}
+}
+$('next').onclick = ()=>{ if(idx<videos.length-1) loadIndex(idx+1,true); else loadIndex(0,true); };
+$('prev').onclick = ()=>{ if(idx>0) loadIndex(idx-1,true); else loadIndex(videos.length-1,true); };
+$('play').onclick = ()=>{ try{ PLAYER.playVideo(); Alter.resume(); }catch(e){} };
+$('pause').onclick= ()=>{ try{ PLAYER.pauseVideo(); }catch(e){} };
 
-  // shimmer follow
-  const sh=document.querySelector('.shimmer'); let sx=50,sy=35,tx=50,ty=35;
-  (function anim(){ sx+=.04*(tx-sx); sy+=.04*(ty-sy); sh.style.setProperty('--sx',sx+'%'); sh.style.setProperty('--sy',sy+'%'); requestAnimationFrame(anim); })();
-  window.addEventListener('pointermove',e=>{tx=e.clientX/window.innerWidth*100;ty=e.clientY/window.innerHeight*100;},{passive:true});
-  window.addEventListener('pointerdown',()=>{initAudio();resumeCtx();},{once:true});
+// deck
+(function mountDeck(){
+  const deck = $('deck');
+  videos.forEach((v,k)=>{
+    const b=document.createElement('button');
+    b.textContent=v.t; b.style.width="100%";
+    b.onclick=()=>loadIndex(k,true);
+    deck.appendChild(b);
+  });
 })();
+
+// loop / shuffle toggles
+let loopAll=false, shuffle=false;
+$('loop').onclick = function(){ loopAll=!loopAll; this.textContent='Loop All: '+(loopAll?'On':'Off'); this.setAttribute('aria-pressed',loopAll?'true':'false'); };
+$('shuffle').onclick = function(){ shuffle=!shuffle; this.textContent='Shuffle: '+(shuffle?'On':'Off'); this.setAttribute('aria-pressed',shuffle?'true':'false'); };
+
+// START gate — single tap unlocks both video & WebAudio
+$('startBtn').onclick = ()=>{
+  if(STARTED) return;
+  STARTED = true;
+  Alter.initAudio();        // starts tone ON by default
+  loadYTAPI();              // creates muted autoplay player
+  $('startGate').style.display='none';
+};
 </script>
 
-<!-- Simple, reliable YouTube embed system (no JS API) -->
 <script>
-(function(){
-  // Official uploads / best-available:
-  const videos = [
-    { t:"HOT TO GO! (Official Music Video)", id:"xaPNR-_Cfn0", url:"https://www.youtube.com/watch?v=xaPNR-_Cfn0" }, // official MV
-    { t:"Femininomenon (Music Video)",       id:"v_r-M4jhGJA", url:"https://www.youtube.com/watch?v=v_r-M4jhGJA" }, // channel MV
-    { t:"Red Wine Supernova (Magician's Cut)", id:"VS6ixn2berk", url:"https://www.youtube.com/watch?v=VS6ixn2berk" }, // official alt cut
-    { t:"Good Luck, Babe! (Official Lyric Video)", id:"1RKqOmSkGgM", url:"https://www.youtube.com/watch?v=1RKqOmSkGgM" } // lyric (no MV)
-  ];
+/* -----------------------------
+   Silky · Sexy · Rooted · Airy
+   WebAudio Tone Engine v2
+   - base sine
+   - 2 Hz group pulse (toggle via Group Flame)
+   - airy shimmer (short delay)
+   - warm lowpass
+   - badge for state
+--------------------------------*/
+const ToneBadge = document.getElementById('toneBadge');
 
-  let i=0, loopAll=false, shuffle=false, dur=0, timer=null;
-  const $ = id=>document.getElementById(id), iframe=$('yt'), prog=$('prog'), now=$('nowTitle'), time=$('timecode');
+const Alter = (function(){
+  let ctx, master, tone, gain, lfo, lfoDepth, delay, delayGain, lp;
+  let toneOn=false, chantOn=false, group=false;
+  let chantGain, chantSrc;
+  let hz = 128;
 
-  function srcFor(k){
-    const v = videos[k];
-    // build a playlist that includes at least one extra ID so loop works even on iOS:
-    const plist = videos.map(x=>x.id).join(',');
-    // modestbranding & playsinline keep the UI clean; loop needs playlist param:
-    return "https://www.youtube.com/embed/"+v.id+"?rel=0&modestbranding=1&playsinline=1&controls=1&loop=1&playlist="+plist;
+  function ensureCtx(){
+    if(!ctx){
+      ctx=new (window.AudioContext||window.webkitAudioContext)();
+      master=ctx.createGain(); master.gain.value=.75; master.connect(ctx.destination);
+
+      // tone chain
+      tone=ctx.createOscillator(); tone.type='sine'; tone.frequency.value=hz;
+      gain=ctx.createGain(); gain.gain.value=0.0;
+
+      // shimmer (short delay as air)
+      delay=ctx.createDelay(0.2); delay.delayTime.value=0.028;
+      delayGain=ctx.createGain(); delayGain.gain.value=0.12;
+
+      // warmth filter
+      lp=ctx.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=2600; lp.Q.value=0.2;
+
+      // group pulse
+      lfo=ctx.createOscillator(); lfo.type='sine'; lfo.frequency.value=2;
+      lfoDepth=ctx.createGain(); lfoDepth.gain.value=0.0;
+      lfo.connect(lfoDepth).connect(gain.gain);
+
+      tone.connect(lp);
+      lp.connect(gain).connect(master);
+      lp.connect(delay).connect(delayGain).connect(master);
+
+      tone.start(); lfo.start();
+
+      // chant (band-limited noise)
+      const size=2*ctx.sampleRate, buf=ctx.createBuffer(1,size,ctx.sampleRate), data=buf.getChannelData(0);
+      for(let i=0;i<size;i++) data[i]=(Math.random()*2-1)*.18;
+      chantSrc=ctx.createBufferSource(); chantSrc.buffer=buf; chantSrc.loop=true;
+      const bp=ctx.createBiquadFilter(); bp.type='bandpass'; bp.frequency.value=330; bp.Q.value=6;
+      chantGain=ctx.createGain(); chantGain.gain.value=0.0;
+      const slfo=ctx.createOscillator(); const sdepth=ctx.createGain(); slfo.type='sine'; slfo.frequency.value=.85; sdepth.gain.value=.18;
+      slfo.connect(sdepth).connect(chantGain.gain); slfo.start();
+      chantSrc.connect(bp).connect(chantGain).connect(master); chantSrc.start();
+
+      // monitor context state for badge
+      ctx.onstatechange = ()=> setBadge(ctx.state === 'running' ? (toneOn?'on':'off') : 'warn');
+    }
   }
-  function load(k){ i=k; now.textContent=(i+1)+"/"+videos.length+" · "+videos[i].t; iframe.src=srcFor(i); }
-  function next(){ if(shuffle){ let n; do{n=Math.floor(Math.random()*videos.length);}while(n===i&&videos.length>1); load(n); } else if(i<videos.length-1){ load(i+1);} else if(loopAll){ load(0);} }
-  function prev(){ if(i>0) load(i-1); else load(videos.length-1); }
+  function resume(){ if(ctx && ctx.state==='suspended'){ ctx.resume(); } }
 
-  // Transport buttons
-  $('play').onclick = function(){ AlterAudio.init(); const s=iframe.src; iframe.src=""; setTimeout(()=>iframe.src=s,10); };
-  $('pause').onclick = function(){ /* user can pause in iframe; here we just keep UI simple */ };
-  $('next').onclick = next;
-  $('prev').onclick = prev;
-  $('loop').onclick = function(){ loopAll=!loopAll; this.setAttribute('aria-pressed',loopAll?'true':'false'); this.textContent='Loop All: '+(loopAll?'On':'Off'); try{localStorage.setItem('alter.fire.loop',loopAll?'1':'0');}catch(e){} };
-  $('shuffle').onclick = function(){ shuffle=!shuffle; this.setAttribute('aria-pressed',shuffle?'true':'false'); this.textContent='Shuffle: '+(shuffle?'On':'Off'); try{localStorage.setItem('alter.fire.shuffle',shuffle?'1':'0');}catch(e){} };
-  $('tone').onclick = function(){ AlterAudio.tone(); };
-  $('chant').onclick = function(){ AlterAudio.chant(); };
-  $('mode').onclick = function(){ AlterAudio.mode(); };
-
-  // Render deck
-  const deck = $('deck');
-  videos.forEach((v, k)=>{
-    const card = document.createElement('div'); card.className='card';
-    const b = document.createElement('button'); b.textContent=v.t; b.style.width="100%"; b.onclick=()=>load(k);
-    const open = document.createElement('p'); open.className='mini'; open.innerHTML = 'Open on <a href="'+v.url+'" target="_blank" rel="noopener">YouTube</a>';
-    card.appendChild(b); card.appendChild(open); deck.appendChild(card);
-  });
-
-  // Persist loop/shuffle
-  try{
-    loopAll = localStorage.getItem('alter.fire.loop')==='1';
-    shuffle = localStorage.getItem('alter.fire.shuffle')==='1';
-    const loopBtn=$('loop'), shufBtn=$('shuffle');
-    loopBtn.setAttribute('aria-pressed',loopAll?'true':'false'); loopBtn.textContent='Loop All: '+(loopAll?'On':'Off');
-    shufBtn.setAttribute('aria-pressed',shuffle?'true':'false'); shufBtn.textContent='Shuffle: '+(shuffle?'On':'Off');
-  }catch(e){}
-
-  // Progress meter (best-effort visual using time estimate tick)
-  function tick(){
-    clearInterval(timer);
-    let t=0; timer=setInterval(()=>{ t=(t+0.3)%240; // just a gentle pulse proxy
-      prog.style.width = (t/240*100)+"%";
-      const m=Math.floor(t/60), s=("0"+Math.floor(t%60)).slice(-2);
-      time.textContent=m+":"+s;
-    },300);
+  function setBadge(state){
+    if(state==='on'){ ToneBadge.textContent='Tone: On'; ToneBadge.className='badge ok'; }
+    else if(state==='warn'){ ToneBadge.textContent='Tone: Suspended'; ToneBadge.className='badge warn'; }
+    else { ToneBadge.textContent='Tone: Off'; ToneBadge.className='badge bad'; }
   }
-  tick();
 
-  // initial video
-  load(0);
+  function setTone(on){
+    ensureCtx(); resume();
+    toneOn=!!on;
+    gain.gain.setTargetAtTime(toneOn? (group? .16:.12):0, ctx.currentTime, .12);
+    setBadge(toneOn? 'on' : (ctx && ctx.state!=='running' ? 'warn' : 'off'));
+  }
+  function setChant(on){
+    ensureCtx(); resume();
+    chantOn=!!on;
+    chantGain.gain.setTargetAtTime(chantOn? .18:0, ctx.currentTime, .15);
+  }
+  function setGroup(on){
+    ensureCtx(); resume();
+    group=!!on;
+    lfoDepth.gain.setTargetAtTime(group? .25:0, ctx.currentTime, .12);
+    setTone(toneOn); // adjust headroom
+    document.getElementById('mode').textContent='Group Flame: '+(group?'On':'Off');
+    document.getElementById('mode').setAttribute('aria-pressed',group?'true':'false');
+    document.getElementById('modeTag').textContent = group? 'Group Flame · Ritual of Becoming':'Ritual of Becoming';
+    document.getElementById('altar').classList.toggle('mode-on', group);
+    document.documentElement.style.setProperty('--pulse', group?1:0);
+  }
+  function setHz(v){
+    ensureCtx(); resume();
+    hz=v; tone.frequency.setTargetAtTime(hz, ctx.currentTime, .08);
+    document.getElementById('hzLabel').textContent = hz.toFixed(1);
+    document.getElementById('hz').value = hz.toFixed(1);
+  }
+
+  // public API
+  return {
+    initAudio(){ ensureCtx(); setHz(128); setGroup(false); setTone(true); },
+    toggleTone(){ setTone(!toneOn); },
+    toggleChant(){ setChant(!chantOn); },
+    toggleGroup(){ setGroup(!group); },
+    setHz,
+    resume
+  };
 })();
+
+// Tone tuner UI
+document.querySelectorAll('[data-hz]').forEach(btn=>{
+  btn.addEventListener('click', ()=> Alter.setHz(parseFloat(btn.getAttribute('data-hz'))));
+});
+document.getElementById('hz').addEventListener('input', e=> Alter.setHz(parseFloat(e.target.value)));
+
+// Keep audio running after tab changes on iOS
+document.addEventListener('visibilitychange', ()=>{ if(document.visibilityState==='visible'){ Alter.resume(); }});
+window.addEventListener('touchend', ()=> Alter.resume(), {passive:true});
+window.addEventListener('click',   ()=> Alter.resume(), {passive:true});
+window.addEventListener('pageshow',()=> Alter.resume());
+
+// Control buttons hooking to Alter
+document.getElementById('mode').onclick = ()=> Alter.toggleGroup();
+document.getElementById('tone').onclick = ()=> Alter.toggleTone();
+document.getElementById('chant').onclick= ()=> Alter.toggleChant();
 </script>
 </body>
 </html>
