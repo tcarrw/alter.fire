@@ -10,8 +10,7 @@
 <style>
   :root{
     --bg:#07090c; --fg:#e9ecf1; --glass:rgba(255,255,255,.06); --line:rgba(255,255,255,.12);
-    --accent:#ff5a00; --glow:0 0 24px rgba(255,90,0,.35); --radius:16px;
-    --muted:#b8c0cc;
+    --accent:#ff5a00; --glow:0 0 24px rgba(255,90,0,.35); --radius:16px; --muted:#b8c0cc;
   }
   *{box-sizing:border-box} html,body{height:100%}
   body{
@@ -149,31 +148,36 @@
 
 <script>
 (function(){
+  // ---- Defaults (Curated 14) ----
+  const DEFAULT_CUR = [
+    {"id":"phtcAd8j6Ro","title":"What It Is (Block Boy) ft. Kodak Black — Official Video"},
+    {"id":"JUBqJzLPjXE","title":"Persuasive — Official Video"},
+    {"id":"ES9CqKPkdeU","title":"Persuasive (with SZA) — Official Video"},
+    {"id":"0aQ9Q0hRTwY","title":"Crazy — Official Video"},
+    {"id":"8qnOpJfFfpU","title":"Yucky Blucky Fruitcake — Official MV"},
+    {"id":"29mk5rz3m7Q","title":"Stressed — A COLORS SHOW (official performance)"},
+    {"id":"MM6FZHPm0ME","title":"Pacer — Official Video"},
+    {"id":"U6I1cp5eWz8","title":"Bitch I’m Nice — Official Visualizer"},
+    {"id":"OgtN65lJVF8","title":"Booty Drop — Official Music Video"},
+    {"id":"riCP9x31Kuk","title":"Anxiety — Official Video"},
+    {"id":"KAT1X52ElB4","title":"Girls — Official Music Video"},
+    {"id":"1bStZtmUPzw","title":"Crazy — Vevo DSCVR (official performance"}
+  ];
+  const DEFAULT_ILL = []; // fill later with your main Illumina 42
+
   // ---- Storage keys (site-scoped)
   const KEY_CUR = "alterfire_doechii_curated";
   const KEY_ILL = "alterfire_doechii_illumina";
   const KEY_STATE = "alterfire_doechii_state";
 
   // ---- State
-  const state = {
-    active: "cur", // 'cur' or 'ill'
-    index: 0,
-    shuffle: false,
-    repeatOne: false
-  };
+  const state = { active:"cur", index:0, shuffle:false, repeatOne:false };
 
   // ---- Audio
   let ctx, gain, osc;
-  function ensureCtx(){
-    if(!ctx){
-      ctx = new (window.AudioContext||window.webkitAudioContext)({latencyHint:"interactive"});
-      gain = ctx.createGain(); gain.gain.value = parseFloat(vol.value);
-      gain.connect(ctx.destination);
-    }
-    return ctx;
-  }
+  function ensureCtx(){ if(!ctx){ ctx = new (window.AudioContext||window.webkitAudioContext)({latencyHint:"interactive"}); gain = ctx.createGain(); gain.gain.value = parseFloat(vol.value); gain.connect(ctx.destination);} return ctx; }
   function startTone(f){ ensureCtx(); stopTone(); osc = ctx.createOscillator(); osc.type="sine"; osc.frequency.setValueAtTime(f, ctx.currentTime); osc.connect(gain); osc.start(); }
-  function stopTone(){ if(osc){ try{osc.stop();}catch(_){} osc.disconnect(); osc=null; } }
+  function stopTone(){ if(osc){ try{osc.stop();}catch(_){ } osc.disconnect(); osc=null; } }
 
   // ---- Elements
   const player = document.getElementById('player');
@@ -209,22 +213,23 @@
     if(/^[A-Za-z0-9_-]{5,}$/.test(input)) return input;
     return null;
   }
-  function save(key, arr){ localStorage.setItem(key, JSON.stringify(arr)); }
-  function load(key){ try{ return JSON.parse(localStorage.getItem(key)||"[]"); }catch(_){ return []; } }
+  function save(k,a){ localStorage.setItem(k, JSON.stringify(a)); }
+  function load(k){ try{ return JSON.parse(localStorage.getItem(k)||"[]"); }catch(_){ return []; } }
   function saveState(){ localStorage.setItem(KEY_STATE, JSON.stringify(state)); }
   function loadState(){ try{ Object.assign(state, JSON.parse(localStorage.getItem(KEY_STATE)||"{}")); }catch(_){} }
 
-  // ---- Lists
+  // ---- Lists (seed if empty)
   let curList = load(KEY_CUR);
   let illList = load(KEY_ILL);
+  if(!Array.isArray(curList) || curList.length===0){ curList = DEFAULT_CUR.slice(); save(KEY_CUR, curList); }
+  if(!Array.isArray(illList)){ illList = []; save(KEY_ILL, DEFAULT_ILL); }
   loadState();
 
   function activeList(){ return state.active==="cur" ? curList : illList; }
   function setVideoByIndex(){
     const L = activeList();
     if(!L.length){ player.removeAttribute('src'); chkVid.textContent="idle"; chkVid.className="bad"; nowLabel.textContent="—"; return; }
-    let i = state.index;
-    if(i<0) i=0; if(i>=L.length) i=L.length-1; state.index=i; saveState();
+    let i = state.index; if(i<0) i=0; if(i>=L.length) i=L.length-1; state.index=i; saveState();
     const item = L[i];
     player.src = "https://www.youtube-nocookie.com/embed/"+item.id+"?autoplay=1&mute=0&playsinline=1&rel=0&modestbranding=1";
     chkVid.textContent="ready"; chkVid.className="ok";
@@ -233,40 +238,26 @@
 
   function render(){
     listCur.innerHTML = "";
-    curList.forEach((it,idx)=>{
-      const row = document.createElement('div'); row.className="item";
-      const left = document.createElement('div');
-      left.innerHTML = `<div>${it.title||it.id}</div><div class="small muted">${it.id}</div>`;
-      const controls = document.createElement('div'); controls.className="controls";
-      controls.append(
-        makeBtn("Play", ()=>{ state.active="cur"; tabSelect("cur"); state.index=idx; saveState(); setVideoByIndex(); }),
-        makeBtn("↑", ()=>{ if(idx>0){ const t=curList[idx-1]; curList[idx-1]=curList[idx]; curList[idx]=t; save(KEY_CUR,curList); render(); } }),
-        makeBtn("↓", ()=>{ if(idx<curList.length-1){ const t=curList[idx+1]; curList[idx+1]=curList[idx]; curList[idx]=t; save(KEY_CUR,curList); render(); } }),
-        makeBtn("✕", ()=>{ curList.splice(idx,1); save(KEY_CUR,curList); render(); })
-      );
-      row.append(left,controls); listCur.append(row);
-    });
-
+    curList.forEach((it,idx)=> listCur.append(rowFor(it,idx,"cur")));
     listIll.innerHTML = "";
-    illList.forEach((it,idx)=>{
-      const row = document.createElement('div'); row.className="item";
-      const left = document.createElement('div');
-      left.innerHTML = `<div>${it.title||it.id}</div><div class="small muted">${it.id}</div>`;
-      const controls = document.createElement('div'); controls.className="controls";
-      controls.append(
-        makeBtn("Play", ()=>{ state.active="ill"; tabSelect("ill"); state.index=idx; saveState(); setVideoByIndex(); }),
-        makeBtn("↑", ()=>{ if(idx>0){ const t=illList[idx-1]; illList[idx-1]=illList[idx]; illList[idx]=t; save(KEY_ILL,illList); render(); } }),
-        makeBtn("↓", ()=>{ if(idx<illList.length-1){ const t=illList[idx+1]; illList[idx+1]=illList[idx]; illList[idx]=t; save(KEY_ILL,illList); render(); } }),
-        makeBtn("✕", ()=>{ illList.splice(idx,1); save(KEY_ILL,illList); render(); })
-      );
-      row.append(left,controls); listIll.append(row);
-    });
-
+    illList.forEach((it,idx)=> listIll.append(rowFor(it,idx,"ill")));
     chkStore.textContent = (curList.length+illList.length)>0 ? "saved" : "unset";
     chkStore.className = (curList.length+illList.length)>0 ? "ok" : "bad";
   }
-
-  function makeBtn(label, fn){ const b = document.createElement('button'); b.className="btn"; b.textContent=label; b.addEventListener('click', fn); return b; }
+  function rowFor(it,idx,scope){
+    const row = document.createElement('div'); row.className="item";
+    const left = document.createElement('div');
+    left.innerHTML = `<div>${it.title||it.id}</div><div class="small muted">${it.id}</div>`;
+    const controls = document.createElement('div'); controls.className="controls";
+    controls.append(
+      makeBtn("Play", ()=>{ state.active=scope; tabSelect(scope); state.index=idx; saveState(); setVideoByIndex(); }),
+      makeBtn("↑", ()=>{ const arr=scope==="cur"?curList:illList; if(idx>0){ const t=arr[idx-1]; arr[idx-1]=arr[idx]; arr[idx]=t; save(scope==="cur"?KEY_CUR:KEY_ILL,arr); render(); } }),
+      makeBtn("↓", ()=>{ const arr=scope==="cur"?curList:illList; if(idx<arr.length-1){ const t=arr[idx+1]; arr[idx+1]=arr[idx]; arr[idx]=t; save(scope==="cur"?KEY_CUR:KEY_ILL,arr); render(); } }),
+      makeBtn("✕", ()=>{ const arr=scope==="cur"?curList:illList; arr.splice(idx,1); save(scope==="cur"?KEY_CUR:KEY_ILL,arr); render(); })
+    );
+    row.append(left,controls); return row;
+  }
+  function makeBtn(label, fn){ const b=document.createElement('button'); b.className="btn"; b.textContent=label; b.addEventListener('click', fn); return b; }
 
   // ---- Tab switching
   function tabSelect(which){
@@ -282,7 +273,7 @@
   // ---- Playlist actions
   document.querySelectorAll('[data-act]').forEach(btn=>{
     btn.addEventListener('click', ()=>{
-      const scope = btn.getAttribute('data-scope'); // 'cur' or 'ill'
+      const scope = btn.getAttribute('data-scope');
       let arr = scope==="cur" ? curList : illList;
       const key = scope==="cur" ? KEY_CUR : KEY_ILL;
       const act = btn.getAttribute('data-act');
@@ -291,65 +282,38 @@
         const input = prompt("Paste official YouTube URL (or ID). Optionally add a title after a comma.\nExample: https://youtu.be/ABC123, My Title");
         if(!input) return;
         let id, title="";
-        if(input.includes(",")){ const parts=input.split(","); id = parseID(parts[0].trim()); title = parts.slice(1).join(",").trim(); }
-        else { id = parseID(input.trim()); }
+        if(input.includes(",")){ const parts=input.split(","); id=parseID(parts[0].trim()); title=parts.slice(1).join(",").trim(); }
+        else { id=parseID(input.trim()); }
         if(!id){ alert("Could not parse. Use a full YouTube URL or the video ID."); return; }
-        arr.push({id, title});
-        save(key, arr); render();
+        arr.push({id,title}); save(key,arr); render();
       }
       if(act==="import"){
         const text = prompt("Paste JSON array of items: [{\"id\":\"VIDEOID\",\"title\":\"Optional\"}, ...]");
         if(!text) return;
         try{
           const imported = JSON.parse(text).filter(x=>x && x.id);
-          arr.splice(0, arr.length, ...imported);
-          save(key, arr); render();
+          arr.splice(0,arr.length, ...imported); save(key,arr); render();
         }catch(_){ alert("Invalid JSON."); }
       }
-      if(act==="export"){
-        alert(JSON.stringify(arr));
-      }
-      if(act==="clear"){
-        if(confirm("Clear this playlist?")){ arr.splice(0,arr.length); save(key,arr); render(); setVideoByIndex(); }
-      }
+      if(act==="export"){ alert(JSON.stringify(arr)); }
+      if(act==="clear"){ if(confirm("Clear this playlist?")){ arr.splice(0,arr.length); save(key,arr); render(); setVideoByIndex(); } }
     });
   });
 
   // ---- Transport
-  prevBtn.addEventListener('click', ()=>{
-    const L = activeList(); if(!L.length) return;
-    state.index = (state.index-1+L.length)%L.length; saveState(); setVideoByIndex();
-  });
-  nextBtn.addEventListener('click', ()=>{
-    const L = activeList(); if(!L.length) return;
-    if(state.shuffle){ state.index = Math.floor(Math.random()*L.length); }
-    else { state.index = (state.index+1)%L.length; }
-    saveState(); setVideoByIndex();
-  });
-  shuffleBtn.addEventListener('click', ()=>{
-    state.shuffle = !state.shuffle; shuffleBtn.setAttribute('aria-pressed', String(state.shuffle));
-    saveState();
-  });
-  repeatBtn.addEventListener('click', ()=>{
-    state.repeatOne = !state.repeatOne; repeatBtn.setAttribute('aria-pressed', String(state.repeatOne));
-    saveState();
-  });
+  prevBtn.addEventListener('click', ()=>{ const L=activeList(); if(!L.length) return; state.index=(state.index-1+L.length)%L.length; saveState(); setVideoByIndex(); });
+  nextBtn.addEventListener('click', ()=>{ const L=activeList(); if(!L.length) return; state.index = state.shuffle ? Math.floor(Math.random()*L.length) : (state.index+1)%L.length; saveState(); setVideoByIndex(); });
+  shuffleBtn.addEventListener('click', ()=>{ state.shuffle=!state.shuffle; shuffleBtn.setAttribute('aria-pressed', String(state.shuffle)); saveState(); });
+  repeatBtn.addEventListener('click', ()=>{ state.repeatOne=!state.repeatOne; repeatBtn.setAttribute('aria-pressed', String(state.repeatOne)); saveState(); });
 
-  // naive end detection: watch hashchange via Player API-less trick (not perfect on iOS). Provide Next btn anyway.
-
-  // ---- Tone UI
+  // ---- Tone
   document.querySelectorAll('[data-f]').forEach(b=> b.addEventListener('click', ()=> startTone(parseFloat(b.getAttribute('data-f')))));
   stopBtn.addEventListener('click', stopTone);
   vol.addEventListener('input', ()=>{ if(gain){ gain.gain.setValueAtTime(parseFloat(vol.value), ctx.currentTime||0); }});
-  unlockBtn.addEventListener('click', async ()=>{
-    ensureCtx(); if(ctx.state==="suspended"){ try{ await ctx.resume(); }catch(_){ } }
-    chkAudio.textContent = (ctx && ctx.state==="running") ? "running" : ctx.state;
-    chkAudio.className = (ctx && ctx.state==="running") ? "ok" : "bad";
-  });
+  unlockBtn.addEventListener('click', async ()=>{ ensureCtx(); if(ctx.state==="suspended"){ try{ await ctx.resume(); }catch(_){ } } chkAudio.textContent=(ctx && ctx.state==="running")?"running":ctx.state; chkAudio.className=(ctx && ctx.state==="running")?"ok":"bad"; });
 
   // ---- Init
-  render();
-  tabSelect(state.active);
+  render(); tabSelect(state.active);
   if(activeList().length){ setVideoByIndex(); }
 
   // ---- SW
