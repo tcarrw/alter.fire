@@ -5,8 +5,12 @@
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <meta name="color-scheme" content="dark light"/>
 <title>Alter Fire — Doechii · Bridge Room</title>
-<meta name="description" content="Alter Fire — Doechii Bridge Room. Dual playlists (Curated & Illumina), glass UI, tone pads, offline-ready."/>
+<meta name="description" content="Alter Fire — Doechii Bridge Room. Dual playlists (Curated & Illumina), glass UI, tone pads, share & shout, offline-ready."/>
 <meta name="theme-color" content="#0d0f13"/>
+<meta property="og:title" content="Alter Fire — Doechii · Bridge Room"/>
+<meta property="og:description" content="Tap to open the current track in this room."/>
+<meta property="og:type" content="website"/>
+<meta name="twitter:card" content="summary_large_image"/>
 <style>
   :root{
     --bg:#07090c; --fg:#e9ecf1; --glass:rgba(255,255,255,.06); --line:rgba(255,255,255,.12);
@@ -21,7 +25,7 @@
     -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
   }
   a{color:inherit}
-  .wrap{max-width:980px;margin:0 auto;padding:20px 16px 64px;display:grid;gap:16px}
+  .wrap{max-width:980px;margin:0 auto;padding:20px 16px 80px;display:grid;gap:16px}
   header{
     display:flex;align-items:center;justify-content:space-between;gap:12px;
     padding:12px 14px;border:1px solid var(--line);border-radius:var(--radius);
@@ -58,6 +62,13 @@
   footer{opacity:.7;font-size:12px;text-align:center;padding:10px}
   .spacer{height:4px}
   .pill{font-size:12px;padding:4px 8px;border:1px solid var(--line);border-radius:999px;background:var(--glass)}
+  .field{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  input[type="text"], textarea{
+    background:rgba(255,255,255,.05); border:1px solid var(--line); color:var(--fg);
+    padding:8px 10px; border-radius:10px; min-width:160px
+  }
+  textarea{min-height:64px; width:100%}
+  .grow{flex:1 1 260px}
 </style>
 </head>
 <body>
@@ -88,8 +99,36 @@
         <span class="pill small" id="nowLabel">—</span>
       </div>
 
-      <div class="row small">
-        Tip: add official YouTube URLs/IDs to your active playlist. Use Import/Export to manage full lists.
+      <!-- Share row -->
+      <div class="row" role="group" aria-label="Share current track">
+        <button class="btn" id="shareNative">Share</button>
+        <button class="btn" id="shareX">X / Twitter</button>
+        <button class="btn" id="shareTT">TikTok</button>
+        <button class="btn" id="shareIG">Instagram</button>
+        <span class="small" id="shareStatus" aria-live="polite"></span>
+      </div>
+
+      <!-- Shout Builder -->
+      <div class="panel" aria-labelledby="shoutTitle">
+        <div class="title" id="shoutTitle">Shout Builder</div>
+        <div class="field">
+          <label class="small" for="shoutWho">Who</label>
+          <input id="shoutWho" type="text" class="grow" placeholder="e.g., Doechii / my friend / the squad"/>
+        </div>
+        <div class="field">
+          <label class="small" for="shoutSong">Fav song (optional)</label>
+          <input id="shoutSong" type="text" class="grow" placeholder="Song title or a note"/>
+        </div>
+        <div class="field">
+          <label class="small" for="shoutText">Why I’m hyped</label>
+          <textarea id="shoutText" class="grow" placeholder="one line about why you love this"></textarea>
+        </div>
+        <div class="field">
+          <label class="small" for="boostUrl">Boost a different YouTube (optional)</label>
+          <input id="boostUrl" type="text" class="grow" placeholder="Paste YouTube URL/ID to play/share"/>
+          <button class="btn" id="boostUse">Use & Play</button>
+        </div>
+        <div class="small muted">Tip: your shout text is included when you share. If you paste a Boost link, it’ll play & be the one shared.</div>
       </div>
     </div>
 
@@ -161,7 +200,7 @@
     {"id":"OgtN65lJVF8","title":"Booty Drop — Official Music Video"},
     {"id":"riCP9x31Kuk","title":"Anxiety — Official Video"},
     {"id":"KAT1X52ElB4","title":"Girls — Official Music Video"},
-    {"id":"1bStZtmUPzw","title":"Crazy — Vevo DSCVR (official performance"}
+    {"id":"1bStZtmUPzw","title":"Crazy — Vevo DSCVR (official performance)"}
   ];
   const DEFAULT_ILL = []; // fill later with your main Illumina 42
 
@@ -201,6 +240,13 @@
   const chkVid = document.getElementById('chkVid');
   const chkStore = document.getElementById('chkStore');
 
+  // Shout builder elements
+  const shoutWho = document.getElementById('shoutWho');
+  const shoutSong = document.getElementById('shoutSong');
+  const shoutText = document.getElementById('shoutText');
+  const boostUrl = document.getElementById('boostUrl');
+  const boostUse = document.getElementById('boostUse');
+
   // ---- Utils
   function parseID(input){
     try{
@@ -231,19 +277,13 @@
     if(!L.length){ player.removeAttribute('src'); chkVid.textContent="idle"; chkVid.className="bad"; nowLabel.textContent="—"; return; }
     let i = state.index; if(i<0) i=0; if(i>=L.length) i=L.length-1; state.index=i; saveState();
     const item = L[i];
+    try { history.replaceState(null, '', '#'+item.id); } catch(_){}
     player.src = "https://www.youtube-nocookie.com/embed/"+item.id+"?autoplay=1&mute=0&playsinline=1&rel=0&modestbranding=1";
     chkVid.textContent="ready"; chkVid.className="ok";
     nowLabel.textContent = (item.title||item.id)+" · "+(state.active==="cur"?"Curated":"Illumina");
   }
 
-  function render(){
-    listCur.innerHTML = "";
-    curList.forEach((it,idx)=> listCur.append(rowFor(it,idx,"cur")));
-    listIll.innerHTML = "";
-    illList.forEach((it,idx)=> listIll.append(rowFor(it,idx,"ill")));
-    chkStore.textContent = (curList.length+illList.length)>0 ? "saved" : "unset";
-    chkStore.className = (curList.length+illList.length)>0 ? "ok" : "bad";
-  }
+  function makeBtn(label, fn){ const b=document.createElement('button'); b.className="btn"; b.textContent=label; b.addEventListener('click', fn); return b; }
   function rowFor(it,idx,scope){
     const row = document.createElement('div'); row.className="item";
     const left = document.createElement('div');
@@ -257,7 +297,13 @@
     );
     row.append(left,controls); return row;
   }
-  function makeBtn(label, fn){ const b=document.createElement('button'); b.className="btn"; b.textContent=label; b.addEventListener('click', fn); return b; }
+
+  function render(){
+    listCur.innerHTML = ""; curList.forEach((it,idx)=> listCur.append(rowFor(it,idx,"cur")));
+    listIll.innerHTML = ""; illList.forEach((it,idx)=> listIll.append(rowFor(it,idx,"ill")));
+    chkStore.textContent = (curList.length+illList.length)>0 ? "saved" : "unset";
+    chkStore.className = (curList.length+illList.length)>0 ? "ok" : "bad";
+  }
 
   // ---- Tab switching
   function tabSelect(which){
@@ -312,14 +358,104 @@
   vol.addEventListener('input', ()=>{ if(gain){ gain.gain.setValueAtTime(parseFloat(vol.value), ctx.currentTime||0); }});
   unlockBtn.addEventListener('click', async ()=>{ ensureCtx(); if(ctx.state==="suspended"){ try{ await ctx.resume(); }catch(_){ } } chkAudio.textContent=(ctx && ctx.state==="running")?"running":ctx.state; chkAudio.className=(ctx && ctx.state==="running")?"ok":"bad"; });
 
-  // ---- Init
+  // ---- Share helpers
+  const shareNativeBtn = document.getElementById('shareNative');
+  const shareXBtn = document.getElementById('shareX');
+  const shareTTBtn = document.getElementById('shareTT');
+  const shareIGBtn = document.getElementById('shareIG');
+  const shareStatus = document.getElementById('shareStatus');
+
+  function currentShare() {
+    const L = activeList();
+    if (!L.length) return null;
+    const item = L[state.index] || L[0];
+    try { history.replaceState(null, '', '#'+item.id); } catch(_){}
+    const url = location.href.split('#')[0] + '#' + item.id;
+    const title = (item.title || 'Current Track') + ' — ' + (document.title || 'Illumina');
+    const media = 'https://youtu.be/' + item.id;
+    // Build shout text
+    const who = (shoutWho.value||'').trim();
+    const song = (shoutSong.value||'').trim();
+    const why = (shoutText.value||'').trim();
+    const parts = [];
+    if (who) parts.push(who);
+    if (song) parts.push(`“${song}”`);
+    if (why) parts.push(why);
+    const shout = parts.join(' · ');
+    const text = shout ? `${title}\n${shout}` : title;
+    return { url, title, media, item, text };
+  }
+
+  async function copyToClipboard(text) {
+    try { await navigator.clipboard.writeText(text); shareStatus.textContent = 'Link copied'; }
+    catch { shareStatus.textContent = 'Copy this link: ' + text; }
+    setTimeout(()=> shareStatus.textContent = '', 3000);
+  }
+
+  async function tryWebShare() {
+    const s = currentShare(); if (!s) return;
+    const shareData = { title: s.title, text: s.text, url: s.url };
+    if (navigator.share) { try { await navigator.share(shareData); } catch { } }
+    else { await copyToClipboard(`${s.text}\n${s.url}`); }
+  }
+  function shareX() {
+    const s = currentShare(); if (!s) return;
+    const text = encodeURIComponent(s.text);
+    const url = encodeURIComponent(s.url);
+    const u = `https://twitter.com/intent/tweet?text=${text}&url=${url}`;
+    window.open(u, '_blank', 'noopener');
+  }
+  async function shareTikTok() {
+    const s = currentShare(); if (!s) return;
+    await copyToClipboard(`${s.text}\n${s.url}`);
+    window.open('https://www.tiktok.com/upload?lang=en', '_blank', 'noopener');
+  }
+  async function shareInstagram() {
+    const s = currentShare(); if (!s) return;
+    await copyToClipboard(`${s.text}\n${s.url}`);
+    const appTry = 'instagram://camera'; const web = 'https://www.instagram.com/';
+    const t = Date.now(); window.location.href = appTry;
+    setTimeout(()=>{ if (Date.now()-t < 800) window.open(web, '_blank', 'noopener'); }, 600);
+  }
+  if (shareNativeBtn) shareNativeBtn.addEventListener('click', tryWebShare);
+  if (shareXBtn) shareXBtn.addEventListener('click', shareX);
+  if (shareTTBtn) shareTTBtn.addEventListener('click', shareTikTok);
+  if (shareIGBtn) shareIGBtn.addEventListener('click', shareInstagram);
+
+  // ---- Boost a different song
+  boostUse.addEventListener('click', ()=>{
+    const raw = (boostUrl.value||'').trim(); if(!raw) return;
+    const id = parseID(raw); if(!id){ alert("Could not parse. Use a full YouTube URL or video ID."); return; }
+    const entry = {id, title:"Boosted track"};
+    const L = activeList();
+    L.unshift(entry);
+    if(state.active==="cur"){ curList = L; save(KEY_CUR, curList); }
+    else { illList = L; save(KEY_ILL, illList); }
+    state.index = 0; saveState(); render(); setVideoByIndex();
+  });
+
+  // ---- Init render + deep-link via hash
   render(); tabSelect(state.active);
-  if(activeList().length){ setVideoByIndex(); }
+  (function tryHash(){
+    const h = (location.hash||"").replace("#","");
+    if(h){
+      const L = activeList();
+      const found = L.findIndex(x=>x.id===h);
+      if(found>=0){ state.index = found; saveState(); setVideoByIndex(); return; }
+      // not in list → treat as boost
+      const entry = {id:h, title:"Linked track"};
+      L.unshift(entry);
+      if(state.active==="cur"){ curList=L; save(KEY_CUR,curList); } else { illList=L; save(KEY_ILL,illList); }
+      state.index=0; saveState(); render(); setVideoByIndex();
+    }else{
+      if(activeList().length){ setVideoByIndex(); }
+    }
+  })();
 
   // ---- SW
   if('serviceWorker' in navigator){
     const sw = `
-      self.addEventListener('install', e=>{ self.skipWaiting(); e.waitUntil(caches.open('af-doechii-v2').then(c=>c.addAll(['./']))); });
+      self.addEventListener('install', e=>{ self.skipWaiting(); e.waitUntil(caches.open('af-doechii-v3').then(c=>c.addAll(['./']))); });
       self.addEventListener('activate', e=> self.clients.claim());
       self.addEventListener('fetch', e=>{ e.respondWith(caches.match(e.request).then(r=> r || fetch(e.request).catch(()=> caches.match('./')))); });
     `;
