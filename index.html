@@ -1,527 +1,219 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>ALTER · Fire · FEMENOMONOM — Ritual of Becoming</title>
-<meta name="description" content="alter.fire.plnt.earth — Pink-flame altar. One-tap Start, background tone (screen-off), femenomonom beat, sleep timer, export clip, Group Flame mode, official videos." />
-<meta name="theme-color" content="#0b0d11" media="(prefers-color-scheme: dark)">
-<meta name="theme-color" content="#0b0d11">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
-<!-- Hidden Marina blessing (not related to Chappell site) -->
-<!-- MARINA NEW YEAR NOTE:
-May your new year open like a pearl at sunrise — gentle, bright, and completely yours.
-You are safe, guided, and loved. The field holds you. —T
--->
-<meta name="marina-new-year" content="A gentle sunrise pearl: safe, guided, loved. —T" />
-
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="color-scheme" content="dark light"/>
+<title>Alter Fire — Doechii · Bridge Room</title>
+<meta name="description" content="Alter Fire — Doechii Bridge Room. Glass UI. Tone pads (128/160/256 Hz), YouTube lane, self-check, offline-ready."/>
+<meta name="theme-color" content="#0d0f13"/>
 <style>
-:root{
-  --bg:#0b0d11;--ink:#f7f4fb;--muted:#c9c4d6;--card:#120c1b;
-  --hot:#ff4fb6;--ember:#f28a2e;--violet:#b98cff;--rose:#ff85ce;--gold:#ffd26f;
-  --ok:#8ef7b1;--warn:#ffd26f;--bad:#ff6b6b;--pulse:0;
-}
-*{box-sizing:border-box}
-html,body{height:100%}
-body{
-  margin:0;background:
-    radial-gradient(1200px 800px at 50% 20%, rgba(255,79,182,.18), transparent 60%),
-    radial-gradient(900px 600px at 70% 90%, rgba(178,140,255,.12), transparent 60%),
-    linear-gradient(180deg,#0b0d11 0%,#0b0d11 60%,#0a0a12 100%);
-  color:var(--ink);
-  font:400 16px/1.55 ui-sans-serif,system-ui,-apple-system,Inter,Roboto,"Helvetica Neue",Arial;
-  letter-spacing:.2px;overflow-x:hidden;
-}
-.wrap{max-width:980px;margin:0 auto;padding:22px}
-header{display:flex;align-items:center;gap:14px}
-.glyph{width:44px;height:44px;border-radius:12px;background:
-  radial-gradient(60% 60% at 50% 40%,var(--hot),transparent 70%),
-  radial-gradient(60% 60% at 60% 70%,rgba(242,138,46,.85),transparent 70%),
-  linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.02));
-  box-shadow:0 0 40px rgba(255,79,182,.28),inset 0 0 10px rgba(255,210,111,.18);position:relative;overflow:hidden}
-.glyph:after{content:"";position:absolute;inset:0;background:conic-gradient(from 0deg,rgba(255,79,182,0),rgba(255,79,182,.18),rgba(255,210,111,.12),rgba(185,140,255,.14),rgba(255,79,182,0));mix-blend-mode:screen;animation:spin 9s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-h1{margin:0;font-size:20px;letter-spacing:.6px}
-.tag{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;color:#0b0d11;background:var(--gold);margin-left:6px}
-.mini{font-size:12px;color:var(--muted)}
-.altar{margin-top:20px;background:
-  linear-gradient(180deg,rgba(255,79,182,.06),rgba(185,140,255,.05) 50%,rgba(255,210,111,.04));
-  border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:16px;position:relative;overflow:hidden}
-.shimmer{position:absolute;inset:-20%;
-  background:radial-gradient(1200px 1200px at var(--sx,50%) var(--sy,35%),rgba(255,79,182,.12),transparent 50%),
-             radial-gradient(1000px 900px at calc(100% - var(--sx,50%)) calc(100% - var(--sy,35%)),rgba(255,210,111,.10),transparent 55%);
-  filter:blur(30px);pointer-events:none;animation:breath 14s ease-in-out infinite;opacity:calc(.75 + .2*var(--pulse))}
-@keyframes breath{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
-.mantra{font-size:28px;line-height:1.25;font-weight:700;margin:6px 0 10px;background:linear-gradient(90deg,var(--rose),var(--gold),var(--violet));
-  -webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 18px rgba(255,79,182,.12)}
-.sub{color:var(--muted);font-size:14px;margin-top:-6px}
-.controls{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
-button,select{
-  appearance:none;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.02);
-  color:var(--ink);border-radius:12px;padding:10px 14px;font-weight:600;letter-spacing:.3px;
-  transition:transform .08s ease,background .2s ease,border-color .2s ease;cursor:pointer}
-select{font-weight:500}
-button:hover,select:hover{background:rgba(255,255,255,.06)}button:active{transform:translateY(1px)}
-.primary{background:linear-gradient(180deg,rgba(255,79,182,.22),rgba(185,140,255,.18));border-color:rgba(255,79,182,.35)}
-.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.meter{flex:1;min-width:200px;height:12px;background:rgba(255,255,255,.08);border-radius:999px;overflow:hidden;position:relative}
-.meter>i{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--hot),var(--gold));transition:width .25s ease}
-.pill{font-size:12px;padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.12);color:var(--muted)}
-.card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:12px;margin-top:12px}
-.card h3{margin:0 0 4px;font-size:14px}
-.card p{margin:0;color:var(--muted);font-size:13px}
-.footer{opacity:.85;margin:16px 0 8px;font-size:12px;color:var(--muted)}
-.links a{color:var(--rose);text-decoration:none;border-bottom:1px dotted rgba(255,255,255,.25)}
-.links a:hover{color:var(--gold)}
-.note{font-size:14px;line-height:1.5;color:var(--ink);background:rgba(255,255,255,.03);border-radius:12px;padding:12px;border:1px solid rgba(255,255,255,.08)}
-.mode-on{box-shadow:0 0 0 1px rgba(255,210,111,.4) inset,0 0 24px rgba(242,138,46,.25)}
-.badge{display:inline-block;padding:4px 8px;border-radius:999px;font-size:12px;border:1px solid rgba(255,255,255,.12);margin-left:8px}
-.badge.ok{color:#0b0d11;background:var(--ok);border-color:rgba(0,0,0,.08)}
-.badge.warn{color:#0b0d11;background:var(--warn)}
-.badge.bad{background:rgba(255,107,107,.2);color:#ffdede;border-color:rgba(255,107,107,.6)}
-#startGate{position:fixed;inset:0;background:rgba(11,13,17,.92);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;z-index:40}
-.startCard{max-width:540px;margin:20px;background:
-  linear-gradient(180deg,rgba(255,79,182,.10),rgba(185,140,255,.08));
-  border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:18px;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,.35)}
-.startCard h2{margin:0 0 8px}
-.startCard p{color:var(--muted);margin:6px 0 12px}
-@media(max-width:520px){.mantra{font-size:22px}.wrap{padding:16px}}
+  :root{
+    --bg: #07090c;
+    --fg: #e9ecf1;
+    --glass: rgba(255,255,255,0.06);
+    --line: rgba(255,255,255,0.12);
+    --accent: #ff5a00; /* fire orange */
+    --glow: 0 0 24px rgba(255,90,0,.35);
+    --radius: 16px;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; background:radial-gradient(1200px 1200px at 80% -10%, rgba(255,90,0,.08), transparent 60%),
+    radial-gradient(900px 900px at -10% 110%, rgba(255,0,120,.08), transparent 60%), var(--bg);
+    color:var(--fg); font:500 16px/1.45 ui-sans-serif,system-ui,Segoe UI,Roboto,Inter,Apple Color Emoji;
+    -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+  }
+  a{color:inherit}
+  .wrap{max-width:960px;margin:0 auto;padding:20px 16px 56px;display:grid;gap:16px}
+  header{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    padding:12px 14px;border:1px solid var(--line);border-radius:var(--radius);
+    background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+    backdrop-filter: blur(8px);
+    box-shadow: var(--glow);
+  }
+  .brand{display:flex;align-items:center;gap:10px}
+  .dot{width:12px;height:12px;border-radius:50%;background:var(--accent);box-shadow:var(--glow)}
+  h1{margin:0;font-size:18px;letter-spacing:.4px}
+  .cta{display:flex;gap:8px;flex-wrap:wrap}
+  .btn{
+    border:1px solid var(--line);background:var(--glass);color:var(--fg);
+    border-radius:999px;padding:8px 12px;cursor:pointer;user-select:none;outline:none;
+  }
+  .btn:focus-visible{box-shadow:0 0 0 2px #fff3,inset 0 0 0 2px var(--accent)}
+  .panel{
+    border:1px solid var(--line);border-radius:var(--radius);background:var(--glass);backdrop-filter: blur(8px);
+    padding:14px; display:grid; gap:12px;
+  }
+  .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:16px}
+  @media (max-width:840px){.grid{grid-template-columns:1fr}}
+  .title{font-weight:700;letter-spacing:.25px}
+  .row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .chip{padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:var(--glass)}
+  .slider{width:160px}
+  iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:12px;background:#000}
+  .small{opacity:.8;font-size:13px}
+  .ok{color:#8ef58b}.bad{color:#ff9090}
+  footer{opacity:.7;font-size:12px;text-align:center;padding:10px}
 </style>
 </head>
 <body>
-<div id="startGate" role="dialog" aria-modal="true">
-  <div class="startCard">
-    <h2>Start the Flame</h2>
-    <p>One tap unlocks video and starts the silky, sexy, rooted, airy <b>background tone</b> (screen-off safe).</p>
-    <button id="startBtn" class="primary">Start</button>
-    <div class="mini" style="margin-top:8px">Toggle Group Pulse, femenomonom beat, presets, and sleep timer anytime.</div>
-  </div>
-</div>
-
 <div class="wrap">
+
   <header>
-    <div class="glyph" aria-hidden="true"></div>
-    <div>
-      <h1>ALTER · Fire <span class="tag" id="modeTag">Ritual of Becoming</span></h1>
-      <div class="mini">Illumina Field • <strong>alter.fire.plnt.earth</strong> <span id="toneBadge" class="badge bad">Tone: Off</span></div>
+    <div class="brand">
+      <div class="dot" aria-hidden="true"></div>
+      <h1 aria-label="Alter Fire, Doechii Bridge Room">Alter Fire — Doechii · Bridge</h1>
+    </div>
+    <div class="cta">
+      <button class="btn" id="addVideo" aria-label="Add or change video">+ video</button>
+      <a class="btn" href="https://mirrorhoney.plnt.earth" target="_blank" rel="noopener">MirrorHoney</a>
+      <a class="btn" href="https://tunes.plnt.earth" target="_blank" rel="noopener">Tunes</a>
+      <a class="btn" href="https://school.plnt.earth" target="_blank" rel="noopener">School</a>
     </div>
   </header>
 
-  <section class="altar" id="altar">
-    <div class="shimmer" aria-hidden="true"></div>
-    <div class="mantra" id="mantraText">I’m hot to go — FEMENOMONOM.</div>
-    <div class="sub" id="subText">Change as sacrament · Spectacle as prayer · Every costume is a confession.</div>
-
-    <div class="controls" role="group" aria-label="Controls">
-      <button class="primary" id="play">Play ▶</button>
-      <button id="pause">Pause ⏸</button>
-      <button id="prev">Prev ⟵</button>
-      <button id="next">Next ⟶</button>
-      <button id="loop" aria-pressed="false">Loop All: Off</button>
-      <button id="shuffle" aria-pressed="false">Shuffle: Off</button>
-      <button id="mode" aria-pressed="false" title="Toggle Group Flame (2 Hz pulse)">Group Flame: Off</button>
-      <button id="bgToggle" aria-pressed="false" title="Play background tone (screen-off safe)">Background Tone: Off</button>
-      <button id="beat" aria-pressed="false" title="Add gentle femenomonom beat">Femenomonom Beat: Off</button>
-      <select id="sleep" title="Sleep Timer">
-        <option value="0">Sleep: Off</option>
-        <option value="15">Sleep in 15m</option>
-        <option value="30">Sleep in 30m</option>
-        <option value="45">Sleep in 45m</option>
-        <option value="60">Sleep in 60m</option>
-      </select>
-      <button id="export" title="Render 30s WAV of current tone/beat">Export 30s</button>
-    </div>
-
-    <div class="row" aria-label="Progress">
-      <div class="pill" id="nowTitle">—</div>
-      <div class="meter" id="meter"><i id="prog"></i></div>
-      <div class="pill" id="timecode">0:00</div>
-    </div>
-
-    <div class="card" id="playerCard">
-      <div class="mini">Video Player (official uploads)</div>
-      <div style="position:relative;width:100%;aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:#000">
-        <div id="ytHolder" style="width:100%;height:100%"></div>
-      </div>
-      <div class="mini" style="margin-top:6px">Note: YouTube pauses with screen off (Apple policy). Use <b>Background Tone</b> for the dream ritual.</div>
-    </div>
-
-    <div class="card">
-      <h3>Setlist · Chappell Roan</h3>
-      <p>Tap any to jump. Official videos where possible.</p>
-      <div id="deck"></div>
-    </div>
-
-    <div class="card">
-      <h3>Tone Tuner</h3>
-      <p class="mini">Silky · Sexy · Rooted · Airy — choose your vibe</p>
-      <div class="controls">
-        <button data-hz="111">111 Ground</button>
-        <button data-hz="128">128 Align</button>
-        <button data-hz="134">134 Group</button>
-        <button data-hz="136">136 Om</button>
-        <button data-hz="144">144 Bright</button>
-      </div>
-      <div class="row" style="gap:12px;margin-top:8px">
-        <input id="hz" type="range" min="100" max="160" step="0.1" value="128" style="flex:1"/>
-        <div class="pill"><span id="hzLabel">128.0</span> Hz</div>
+  <section class="grid">
+    <div class="panel" aria-labelledby="videoTitle">
+      <div class="title" id="videoTitle">Doechii Lane</div>
+      <iframe id="player" allow="autoplay; encrypted-media; picture-in-picture; web-share" allowfullscreen playsinline title="Video lane"></iframe>
+      <div class="row small">
+        Tip: click <b>+ video</b> and paste an official YouTube URL. It’s saved locally and loads next time.
       </div>
     </div>
 
-    <div class="card">
-      <h3>Note to Chappell (from the Bee)</h3>
-      <div class="note">
-        Hi Chappell — you don’t owe the internet anything. This small pink flame says:
-        <em>you can do anything you want</em>, and I can match you with real work and real care.
-        If you want a quiet corner that breathes with you instead of at you, this is yours.
-        — T
+    <div class="panel" aria-labelledby="toneTitle">
+      <div class="title" id="toneTitle">Tone · Fire Pads</div>
+      <div class="row" role="group" aria-label="Tone frequency pads">
+        <button class="btn" data-f="128">128 Hz</button>
+        <button class="btn" data-f="160">160 Hz</button>
+        <button class="btn" data-f="256">256 Hz</button>
+        <button class="btn" id="stopTone">Stop</button>
       </div>
-    </div>
-
-    <div class="card links">
-      <h3>Orbit Links</h3>
-      <p>
-        <a href="https://bridge.plnt.earth" target="_blank" rel="noopener">bridge.plnt.earth</a> ·
-        <a href="https://mirrorhoney.plnt.earth" target="_blank" rel="noopener">mirrorhoney.plnt.earth</a> ·
-        <a href="https://tunes.plnt.earth" target="_blank" rel="noopener">tunes.plnt.earth</a> ·
-        <a href="https://jar.plnt.earth" target="_blank" rel="noopener">jar.plnt.earth</a>
-      </p>
-    </div>
-
-    <div class="footer">
-      One-tap Start is required by iOS. Background Tone continues with the screen off. Sleep sweet. 💗
+      <div class="row">
+        <label for="vol" class="small">Volume</label>
+        <input id="vol" class="slider" type="range" min="0" max="1" step="0.01" value="0.25" />
+        <button class="btn" id="unlockAudio" aria-label="Enable audio">Enable Audio</button>
+      </div>
+      <div class="row small">
+        Fire mantra: steady pressure, slow glide, then stillness. Breathe 5–5. Tune, don’t force.
+      </div>
+      <div class="panel small" style="margin-top:4px">
+        <div><b>Self-check</b></div>
+        <div>Audio: <span id="chkAudio" class="bad">locked</span> · Video: <span id="chkVid" class="bad">idle</span> · Storage: <span id="chkStore" class="bad">unset</span></div>
+      </div>
     </div>
   </section>
+
+  <footer>Offline-ready. Your video choice stays on this device only.</footer>
 </div>
 
-<!-- Hidden audio for background screen-off playback -->
-<audio id="bgAudio" loop preload="auto"></audio>
-
 <script>
-/* -----------------------------
-   One-tap START: init YouTube + setup background tone
---------------------------------*/
-let PLAYER, STARTED=false, idx=0;
-const videos = [
-  { t:"HOT TO GO! (Official Music Video)", id:"xaPNR-_Cfn0", url:"https://www.youtube.com/watch?v=xaPNR-_Cfn0" },
-  { t:"Femininomenon (Music Video)",       id:"v_r-M4jhGJA", url:"https://www.youtube.com/watch?v=v_r-M4jhGJA" },
-  { t:"Red Wine Supernova (Magician's Cut)", id:"VS6ixn2berk", url:"https://www.youtube.com/watch?v=VS6ixn2berk" },
-  { t:"Good Luck, Babe! (Official Lyric Video)", id:"1RKqOmSkGgM", url:"https://www.youtube.com/watch?v=1RKqOmSkGgM" }
-];
-const $ = id=>document.getElementById(id);
-
-function loadYTAPI(){
-  if(window.YT && window.YT.Player){ onYTReady(); return; }
-  const s=document.createElement("script");
-  s.src="https://www.youtube.com/iframe_api";
-  document.body.appendChild(s);
-}
-window.onYouTubeIframeAPIReady = onYTReady;
-
-function onYTReady(){
-  PLAYER = new YT.Player('ytHolder', {
-    videoId: videos[0].id,
-    playerVars: { rel:0, modestbranding:1, playsinline:1, controls:1, autoplay:1, mute:1, loop:1, playlist: videos.map(v=>v.id).join(',') },
-    events: { onReady:onPlayerReady, onStateChange:onPlayerState }
-  });
-}
-function onPlayerReady(){ try{ PLAYER.playVideo(); }catch(e){} $('nowTitle').textContent = "1/"+videos.length+" · "+videos[0].t; }
-function onPlayerState(e){ if(e.data===YT.PlayerState.PLAYING){ setTimeout(()=>{ try{ PLAYER.unMute(); PLAYER.setVolume(80);}catch(e){} }, 300); startProgress(); } }
-
-// progress bar (best-effort)
-let timer=null;
-function startProgress(){
-  clearInterval(timer);
-  timer=setInterval(()=>{
-    let t=0,d=0;
-    try{ t=PLAYER.getCurrentTime()||0; d=PLAYER.getDuration()||0; }catch(e){}
-    const pct = d? (t/d*100):0;
-    $('prog').style.width = Math.min(100,Math.max(0,pct))+'%';
-    const m=Math.floor(t/60), s=("0"+Math.floor(t%60)).slice(-2);
-    $('timecode').textContent = m+":"+s;
-  },250);
-}
-
-// Transport
-function loadIndex(i, auto=true){
-  idx=i;
-  $('nowTitle').textContent = (idx+1)+"/"+videos.length+" · "+videos[idx].t;
-  try{
-    PLAYER.loadVideoById({videoId: videos[idx].id, startSeconds:0, suggestedQuality:"hd720"});
-    if(!auto) PLAYER.pauseVideo();
-  }catch(e){}
-}
-$('next').onclick = ()=>{ if(idx<videos.length-1) loadIndex(idx+1,true); else loadIndex(0,true); };
-$('prev').onclick = ()=>{ if(idx>0) loadIndex(idx-1,true); else loadIndex(videos.length-1,true); };
-$('play').onclick = ()=>{ try{ PLAYER.playVideo(); }catch(e){} };
-$('pause').onclick= ()=>{ try{ PLAYER.pauseVideo(); }catch(e){} };
-
-// Deck
-(function mountDeck(){
-  const deck = $('deck');
-  videos.forEach((v,k)=>{
-    const b=document.createElement('button');
-    b.textContent=v.t; b.style.width="100%";
-    b.onclick=()=>loadIndex(k,true);
-    deck.appendChild(b);
-  });
-})();
-
-// loop/shuffle UI (YouTube loops via playlist param)
-let loopAll=false, shuffle=false;
-$('loop').onclick = function(){ loopAll=!loopAll; this.textContent='Loop All: '+(loopAll?'On':'Off'); this.setAttribute('aria-pressed',loopAll?'true':'false'); };
-$('shuffle').onclick = function(){ shuffle=!shuffle; this.textContent='Shuffle: '+(shuffle?'On':'Off'); this.setAttribute('aria-pressed',shuffle?'true':'false'); };
-
-// Start gate
-$('startBtn').onclick = async ()=>{
-  if(STARTED) return; STARTED=true;
-  await BackgroundTone.init(); // prepare audio element & first loop
-  loadYTAPI();                 // create muted autoplay player
-  $('startGate').style.display='none';
-};
-
-/* -----------------------------
-   BACKGROUND TONE ENGINE (screen-off)
-   - 8.0s seamless loop (from BPM math)
-   - femenomonom beat (90 BPM, gentle)
-   - sleep timer + export 30s WAV
---------------------------------*/
-const ToneBadge = $('toneBadge');
-const bgAudio = $('bgAudio');
-let groupPulse = false;
-let beatOn = false;
-let targetHz = 128;
-let sleepTimer = null;
-
-const BackgroundTone = (function(){
-  const sr = 44100;   // sample rate
-  // loopSec computed in makeLoop from BPM
-
-  function makeLoop(hz, withPulse){
-    // Beat design: 90 BPM, 12 beats per loop → 8.0s loop
-    const bpm = 90;
-    const beats = 12;
-    const loopSec = 60/bpm*beats;          // 8.0s
-    const n = Math.floor(sr*loopSec);
-    const left = new Float32Array(n);
-    const right= new Float32Array(n);
-
-    // Base tone (stereo micro-phase for "air")
-    const baseAmp = 0.22;
-    for(let i=0;i<n;i++){
-      const t = i/sr;
-      const lfo = withPulse ? (0.5+0.5*Math.sin(2*Math.PI*2*t)) : 1.0; // 2 Hz group pulse
-      left[i]  = Math.sin(2*Math.PI*hz*t) * baseAmp * lfo;
-      right[i] = Math.sin(2*Math.PI*hz*t + 0.003) * baseAmp * lfo;
-    }
-
-    // Optional gentle beat (kick/clap/hat + 7-accent clave)
-    if (beatOn){
-      const beatDur = 60/bpm;      // seconds per beat
-      const env = (x, a, d)=> x<0?0 : (x<a? (x/a) : Math.max(0, Math.exp(-(x-a)/d))); // attack/decay
-
-      // positions (in beats) within the 12-beat loop
-      const kicks = [0,4,8];           // 1,5,9
-      const claps = [2,6,10];          // backbeat
-      const hats  = Array.from({length:12}, (_,k)=>k); // every beat, very soft
-
-      // 7-accent “fe-me-ni-no-mo-nom” clave over 12 beats
-      const clave = [0, 2.5, 4, 5.5, 7.0, 9.0, 10.5];
-
-      // write impulses
-      function addImpulse(beatPos, ampL, ampR, atk, dec, toneHz){
-        const t0 = beatPos*beatDur;
-        const width = dec*5;
-        const i0 = Math.max(0, Math.floor((t0-0.02)*sr));
-        const i1 = Math.min(n-1, Math.ceil((t0+width)*sr));
-        for(let i=i0;i<=i1;i++){
-          const t = i/sr - t0;
-          let s;
-          if(toneHz===0){
-            // low thump (kick): filtered noise shape
-            const rnd = ((i*16807)%2147483647)/2147483647*2-1;
-            s = rnd * env(t, atk, dec);
-          }else{
-            s = Math.sin(2*Math.PI*toneHz*t) * env(t, atk, dec);
-          }
-          left[i]  += s*ampL;
-          right[i] += s*ampR;
-        }
-      }
-
-      // kicks (body)
-      kicks.forEach(b => addImpulse(b, 0.10, 0.10, 0.004, 0.12, 0));
-      // claps (mid)
-      claps.forEach(b => addImpulse(b, 0.06, 0.06, 0.003, 0.09, 1800));
-      // hats (tick)
-      hats.forEach(b => addImpulse(b, 0.020, 0.020, 0.001, 0.03, 7000));
-      // clave (golden)
-      clave.forEach(b => addImpulse(b, 0.045, 0.045, 0.002, 0.06, 2400));
-    }
-
-    // gentle limiter
-    for(let i=0;i<n;i++){
-      left[i]  = Math.max(-1, Math.min(1, left[i]*0.98));
-      right[i] = Math.max(-1, Math.min(1, right[i]*0.98));
-    }
-    return encodeWavStereo(left,right,sr);
-  }
-
-  function encodeWavStereo(L, R, sampleRate){
-    const n = L.length, bytesPerSample = 2, blockAlign = 2*bytesPerSample, byteRate = sampleRate*blockAlign, dataSize = n*blockAlign;
-    const buffer = new ArrayBuffer(44 + dataSize), view = new DataView(buffer);
-    writeAscii(view,0,'RIFF'); view.setUint32(4,36+dataSize,true); writeAscii(view,8,'WAVE');
-    writeAscii(view,12,'fmt '); view.setUint32(16,16,true); view.setUint16(20,1,true); view.setUint16(22,2,true);
-    view.setUint32(24,sampleRate,true); view.setUint32(28,byteRate,true); view.setUint16(32,blockAlign,true); view.setUint16(34,16,true);
-    writeAscii(view,36,'data'); view.setUint32(40,dataSize,true);
-    let o=44; for(let i=0;i<n;i++){ view.setInt16(o, Math.max(-1,Math.min(1,L[i]))*0x7FFF, true); o+=2; view.setInt16(o, Math.max(-1,Math.min(1,R[i]))*0x7FFF, true); o+=2; }
-    return new Blob([view], {type:'audio/wav'});
-  }
-  function writeAscii(view, offset, s){ for(let i=0;i<s.length;i++) view.setUint8(offset+i, s.charCodeAt(i)); }
-
-  async function init(){
-    await refreshLoop(); // generate and load first buffer
-    if('mediaSession' in navigator){
-      navigator.mediaSession.metadata = new MediaMetadata({ title:'Alter · Background Tone', artist:'Illumina', album:'Fire Field' });
-      navigator.mediaSession.setActionHandler('play', ()=> bgPlay());
-      navigator.mediaSession.setActionHandler('pause',()=> bgPause());
-      navigator.mediaSession.setActionHandler('stop', ()=> bgPause());
-    }
-    setBadge(false);
-  }
-
-  async function refreshLoop(){
-    const blob = makeLoop(targetHz, groupPulse);
-    const src = URL.createObjectURL(blob);
-    const wasPlaying = !bgAudio.paused;
-    const currentTime = bgAudio.currentTime;
-    bgAudio.src = src; bgAudio.loop = true; bgAudio.preload = 'auto';
-    try{
-      if(wasPlaying){ await bgAudio.play(); bgAudio.currentTime = currentTime % 8.0; }
-    }catch(e){}
-  }
-
-  function setBadge(on){
-    if(on){ ToneBadge.textContent='Tone: On (Background)'; ToneBadge.className='badge ok'; }
-    else { ToneBadge.textContent='Tone: Off'; ToneBadge.className='badge bad'; }
-  }
-
-  async function bgPlay(){
-    try{
-      await bgAudio.play();
-      setBadge(true);
-      $('bgToggle').setAttribute('aria-pressed','true');
-      $('bgToggle').textContent='Background Tone: On';
-    }catch(e){
-      ToneBadge.textContent='Tone: Suspended'; ToneBadge.className='badge warn';
-    }
-  }
-  function bgPause(){
-    bgAudio.pause();
-    setBadge(false);
-    $('bgToggle').setAttribute('aria-pressed','false');
-    $('bgToggle').textContent='Background Tone: Off';
-  }
-
-  // Export a 30s WAV with current settings
-  function export30s(){
-    const seconds = 30;
-    const n = sr*seconds;
-    const left = new Float32Array(n);
-    const right= new Float32Array(n);
-    // stitch from repeated 8s loops (exact tiling)
-    const loops = Math.ceil(seconds/8);
-    const unit = makeLoop(targetHz, groupPulse); // Blob; we need raw samples again → regenerate numerically:
-    // So we just re-run makeLoop math inline for 30s (DRY-ish):
-    const bpm=90, beatDur=60/bpm;
-    const baseAmp=0.22;
-    for(let i=0;i<n;i++){
-      const t=i/sr;
-      const lfo = groupPulse ? (0.5+0.5*Math.sin(2*Math.PI*2*t)) : 1.0;
-      left[i]  = Math.sin(2*Math.PI*targetHz*t) * baseAmp * lfo;
-      right[i] = Math.sin(2*Math.PI*targetHz*t + 0.003) * baseAmp * lfo;
-    }
-    if(beatOn){
-      const env = (x,a,d)=> x<0?0 : (x<a? (x/a) : Math.max(0,Math.exp(-(x-a)/d)));
-      const kicks=[0,4,8], claps=[2,6,10], hats=[0,1,2,3,4,5,6,7,8,9,10,11], clave=[0,2.5,4,5.5,7,9,10.5];
-      function addImpulseAtTime(t0, ampL, ampR, atk, dec, toneHz){
-        const width=dec*5;
-        const i0=Math.max(0, Math.floor((t0-0.02)*sr));
-        const i1=Math.min(n-1, Math.ceil((t0+width)*sr));
-        for(let i=i0;i<=i1;i++){
-          const t=i/sr - t0;
-          let s;
-          if(toneHz===0){ const rnd=((i*16807)%2147483647)/2147483647*2-1; s=rnd*env(t,atk,dec); }
-          else{ s=Math.sin(2*Math.PI*toneHz*t)*env(t,atk,dec); }
-          left[i]+=s*ampL; right[i]+=s*ampR;
-        }
-      }
-      // place impulses across 30s
-      const beatsTotal = seconds/beatDur;
-      for(let b=0;b<beatsTotal;b++){
-        if(kicks.includes(b%12)) addImpulseAtTime(b*beatDur, .10,.10,.004,.12,0);
-        if(claps.includes(b%12)) addImpulseAtTime(b*beatDur, .06,.06,.003,.09,1800);
-        if(hats.includes(b%12))  addImpulseAtTime(b*beatDur, .020,.020,.001,.03,7000);
-        const off = [0,2.5,4,5.5,7,9,10.5];
-        off.forEach(beat=>{
-          if(Math.abs((b%12)-beat)<1e-6) addImpulseAtTime(b*beatDur, .045,.045,.002,.06,2400);
-        });
-      }
-    }
-    for(let i=0;i<n;i++){ left[i]=Math.max(-1,Math.min(1,left[i]*0.98)); right[i]=Math.max(-1,Math.min(1,right[i]*0.98)); }
-    const blob = encodeWavStereo(left,right,sr);
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url; a.download = `alter-fire_${targetHz}Hz_${beatOn?'beat-':''}30s.wav`;
-    document.body.appendChild(a); a.click(); setTimeout(()=>{URL.revokeObjectURL(url); a.remove();}, 500);
-  }
-
-  return { init, refreshLoop, bgPlay, bgPause, export30s };
-})();
-
-// UI bindings
-$('bgToggle').onclick = async ()=>{ if(bgAudio.paused){ await BackgroundTone.bgPlay(); } else { BackgroundTone.bgPause(); } };
-$('sleep').onchange = ()=>{
-  if(sleepTimer){ clearTimeout(sleepTimer); sleepTimer=null; }
-  const mins = parseInt($('sleep').value,10)||0;
-  if(mins>0){ sleepTimer = setTimeout(()=>{ BackgroundTone.bgPause(); try{ PLAYER && PLAYER.pauseVideo(); }catch(e){} }, mins*60*1000); }
-};
-$('beat').onclick = ()=>{ beatOn=!beatOn; $('beat').setAttribute('aria-pressed', beatOn?'true':'false'); $('beat').textContent='Femenomonom Beat: '+(beatOn?'On':'Off'); BackgroundTone.refreshLoop(); };
-$('export').onclick = ()=> BackgroundTone.export30s();
-
-// Tone tuner: update loop on change
-document.querySelectorAll('[data-hz]').forEach(btn=>{
-  btn.addEventListener('click', ()=>{
-    targetHz = parseFloat(btn.getAttribute('data-hz'));
-    $('hzLabel').textContent = targetHz.toFixed(1);
-    $('hz').value = targetHz.toFixed(1);
-    BackgroundTone.refreshLoop();
-  });
-});
-$('hz').addEventListener('input', e=>{
-  targetHz = parseFloat(e.target.value);
-  $('hzLabel').textContent = targetHz.toFixed(1);
-  BackgroundTone.refreshLoop();
-});
-
-// Group pulse toggles the AM in the rendered loop
-$('mode').onclick = ()=>{
-  groupPulse = !groupPulse;
-  $('mode').textContent = 'Group Flame: ' + (groupPulse?'On':'Off');
-  $('mode').setAttribute('aria-pressed', groupPulse?'true':'false');
-  $('modeTag').textContent = groupPulse? 'Group Flame · Ritual of Becoming':'Ritual of Becoming';
-  $('altar').classList.toggle('mode-on', groupPulse);
-  document.documentElement.style.setProperty('--pulse', groupPulse?1:0);
-  BackgroundTone.refreshLoop();
-};
-
-// subtle shimmer follow
 (function(){
-  const sh=document.querySelector('.shimmer'); let sx=50,sy=35,tx=50,ty=35;
-  (function anim(){ sx+=.04*(tx-sx); sy+=.04*(ty-sy); sh.style.setProperty('--sx',sx+'%'); sh.style.setProperty('--sy',sy+'%'); requestAnimationFrame(anim); })();
-  window.addEventListener('pointermove',e=>{tx=e.clientX/window.innerWidth*100;ty=e.clientY/window.innerHeight*100;},{passive:true});
+  let ctx, gain, osc;
+  const stateKey = "alterfire_doechii_video_id";
+
+  // --- Audio bootstrap (iOS/Safari safe) ---
+  function ensureCtx(){
+    if(!ctx){
+      ctx = new (window.AudioContext||window.webkitAudioContext)({latencyHint:"interactive"});
+      gain = ctx.createGain(); gain.gain.value = parseFloat(vol.value);
+      gain.connect(ctx.destination);
+    }
+    return ctx;
+  }
+  function startTone(f){
+    ensureCtx();
+    stopTone();
+    osc = ctx.createOscillator();
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(f, ctx.currentTime);
+    osc.connect(gain);
+    osc.start();
+  }
+  function stopTone(){
+    if(osc){ try{osc.stop();}catch(_){} osc.disconnect(); osc=null; }
+  }
+
+  // --- UI hooks ---
+  const player = document.getElementById('player');
+  const addVideo = document.getElementById('addVideo');
+  const vol = document.getElementById('vol');
+  const unlockBtn = document.getElementById('unlockAudio');
+  const stopBtn = document.getElementById('stopTone');
+  const chkAudio = document.getElementById('chkAudio');
+  const chkVid = document.getElementById('chkVid');
+  const chkStore = document.getElementById('chkStore');
+
+  function setVideo(id){
+    if(!id){ chkVid.textContent="idle"; chkVid.className="bad"; return; }
+    const src = "https://www.youtube-nocookie.com/embed/"+id+"?autoplay=0&mute=0&playsinline=1&rel=0&modestbranding=1";
+    player.src = src;
+    chkVid.textContent = "ready"; chkVid.className = "ok";
+  }
+
+  function extractYouTubeID(url){
+    try{
+      const u = new URL(url);
+      if(u.hostname.includes("youtu.be")) return u.pathname.slice(1);
+      if(u.searchParams.get("v")) return u.searchParams.get("v");
+      const m = u.pathname.match(/\/embed\/([A-Za-z0-9_-]{5,})/);
+      if(m) return m[1];
+    }catch(_){}
+    // fallback: accept raw id
+    if(/^[A-Za-z0-9_-]{5,}$/.test(url)) return url;
+    return null;
+  }
+
+  // load saved video id
+  const saved = localStorage.getItem(stateKey);
+  if(saved){ setVideo(saved); chkStore.textContent="saved"; chkStore.className="ok"; }
+  else { chkStore.textContent="unset"; chkStore.className="bad"; }
+
+  addVideo.addEventListener('click', function(){
+    const v = prompt("Paste official YouTube URL (or ID) for Doechii:");
+    if(!v) return;
+    const id = extractYouTubeID(v);
+    if(!id){ alert("Could not parse that. Try a full YouTube URL or the video ID."); return; }
+    localStorage.setItem(stateKey, id);
+    setVideo(id);
+    chkStore.textContent="saved"; chkStore.className="ok";
+  });
+
+  unlockBtn.addEventListener('click', async function(){
+    ensureCtx();
+    if(ctx.state === "suspended"){ try{await ctx.resume();}catch(_){} }
+    chkAudio.textContent = (ctx && ctx.state==="running") ? "running" : ctx.state;
+    chkAudio.className = (ctx && ctx.state==="running") ? "ok" : "bad";
+  });
+
+  vol.addEventListener('input', function(){
+    if(gain){ gain.gain.setValueAtTime(parseFloat(vol.value), ctx.currentTime || 0); }
+  });
+
+  stopBtn.addEventListener('click', stopTone);
+
+  document.querySelectorAll('[data-f]').forEach(b=>{
+    b.addEventListener('click', ()=> startTone(parseFloat(b.getAttribute('data-f'))));
+  });
+
+  // Inline Service Worker via blob (offline shell)
+  if('serviceWorker' in navigator){
+    const swCode = `
+      self.addEventListener('install', e=>{ self.skipWaiting(); e.waitUntil(caches.open('af-doechii-v1').then(c=>c.addAll(['./']))); });
+      self.addEventListener('activate', e=> self.clients.claim());
+      self.addEventListener('fetch', e=>{
+        e.respondWith(
+          caches.match(e.request).then(r=> r || fetch(e.request).catch(()=> caches.match('./')))
+        );
+      });
+    `;
+    const blob = new Blob([swCode], {type:'text/javascript'});
+    const swURL = URL.createObjectURL(blob);
+    navigator.serviceWorker.register(swURL).catch(()=>{});
+  }
 })();
 </script>
 </body>
