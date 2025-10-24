@@ -5,34 +5,29 @@
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <meta name="color-scheme" content="dark light"/>
 <title>Alter Fire — Doechii · Bridge Room</title>
-<meta name="description" content="Alter Fire — Doechii Bridge Room. Glass UI. Tone pads (128/160/256 Hz), YouTube lane, self-check, offline-ready."/>
+<meta name="description" content="Alter Fire — Doechii Bridge Room. Dual playlists (Curated & Illumina), glass UI, tone pads, offline-ready."/>
 <meta name="theme-color" content="#0d0f13"/>
 <style>
   :root{
-    --bg: #07090c;
-    --fg: #e9ecf1;
-    --glass: rgba(255,255,255,0.06);
-    --line: rgba(255,255,255,0.12);
-    --accent: #ff5a00; /* fire orange */
-    --glow: 0 0 24px rgba(255,90,0,.35);
-    --radius: 16px;
+    --bg:#07090c; --fg:#e9ecf1; --glass:rgba(255,255,255,.06); --line:rgba(255,255,255,.12);
+    --accent:#ff5a00; --glow:0 0 24px rgba(255,90,0,.35); --radius:16px;
+    --muted:#b8c0cc;
   }
-  *{box-sizing:border-box}
-  html,body{height:100%}
+  *{box-sizing:border-box} html,body{height:100%}
   body{
-    margin:0; background:radial-gradient(1200px 1200px at 80% -10%, rgba(255,90,0,.08), transparent 60%),
-    radial-gradient(900px 900px at -10% 110%, rgba(255,0,120,.08), transparent 60%), var(--bg);
-    color:var(--fg); font:500 16px/1.45 ui-sans-serif,system-ui,Segoe UI,Roboto,Inter,Apple Color Emoji;
+    margin:0;background:
+     radial-gradient(1200px 1200px at 80% -10%, rgba(255,90,0,.08), transparent 60%),
+     radial-gradient(900px 900px at -10% 110%, rgba(255,0,120,.08), transparent 60%), var(--bg);
+    color:var(--fg); font:500 16px/1.45 ui-sans-serif,system-ui,Segoe UI,Inter,Roboto,Apple Color Emoji;
     -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
   }
   a{color:inherit}
-  .wrap{max-width:960px;margin:0 auto;padding:20px 16px 56px;display:grid;gap:16px}
+  .wrap{max-width:980px;margin:0 auto;padding:20px 16px 64px;display:grid;gap:16px}
   header{
     display:flex;align-items:center;justify-content:space-between;gap:12px;
     padding:12px 14px;border:1px solid var(--line);border-radius:var(--radius);
-    background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
-    backdrop-filter: blur(8px);
-    box-shadow: var(--glow);
+    background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+    backdrop-filter:blur(8px); box-shadow:var(--glow);
   }
   .brand{display:flex;align-items:center;gap:10px}
   .dot{width:12px;height:12px;border-radius:50%;background:var(--accent);box-shadow:var(--glow)}
@@ -40,23 +35,30 @@
   .cta{display:flex;gap:8px;flex-wrap:wrap}
   .btn{
     border:1px solid var(--line);background:var(--glass);color:var(--fg);
-    border-radius:999px;padding:8px 12px;cursor:pointer;user-select:none;outline:none;
+    border-radius:999px;padding:8px 12px;cursor:pointer;user-select:none;outline:none
   }
   .btn:focus-visible{box-shadow:0 0 0 2px #fff3,inset 0 0 0 2px var(--accent)}
-  .panel{
-    border:1px solid var(--line);border-radius:var(--radius);background:var(--glass);backdrop-filter: blur(8px);
-    padding:14px; display:grid; gap:12px;
-  }
+  .panel{border:1px solid var(--line);border-radius:var(--radius);background:var(--glass);
+         backdrop-filter:blur(8px);padding:14px;display:grid;gap:12px}
   .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:16px}
-  @media (max-width:840px){.grid{grid-template-columns:1fr}}
+  @media (max-width:880px){.grid{grid-template-columns:1fr}}
   .title{font-weight:700;letter-spacing:.25px}
-  .row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-  .chip{padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:var(--glass)}
-  .slider{width:160px}
   iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:12px;background:#000}
-  .small{opacity:.8;font-size:13px}
+  .row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .small{opacity:.85;font-size:13px}
+  .muted{color:var(--muted)}
   .ok{color:#8ef58b}.bad{color:#ff9090}
+  .tabs{display:flex;gap:6px;flex-wrap:wrap}
+  .tab{padding:6px 10px;border:1px solid var(--line);border-radius:999px;background:var(--glass);cursor:pointer}
+  .tab[aria-selected="true"]{outline:2px solid var(--accent)}
+  .list{display:grid;gap:6px;max-height:240px;overflow:auto;padding-right:6px}
+  .item{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;
+        padding:8px 10px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.04)}
+  .controls{display:flex;gap:6px}
+  .slider{width:160px}
   footer{opacity:.7;font-size:12px;text-align:center;padding:10px}
+  .spacer{height:4px}
+  .pill{font-size:12px;padding:4px 8px;border:1px solid var(--line);border-radius:999px;background:var(--glass)}
 </style>
 </head>
 <body>
@@ -68,19 +70,27 @@
       <h1 aria-label="Alter Fire, Doechii Bridge Room">Alter Fire — Doechii · Bridge</h1>
     </div>
     <div class="cta">
-      <button class="btn" id="addVideo" aria-label="Add or change video">+ video</button>
       <a class="btn" href="https://mirrorhoney.plnt.earth" target="_blank" rel="noopener">MirrorHoney</a>
       <a class="btn" href="https://tunes.plnt.earth" target="_blank" rel="noopener">Tunes</a>
       <a class="btn" href="https://school.plnt.earth" target="_blank" rel="noopener">School</a>
     </div>
   </header>
 
-  <section class="grid">
-    <div class="panel" aria-labelledby="videoTitle">
-      <div class="title" id="videoTitle">Doechii Lane</div>
+  <section class="grid" aria-label="Main content">
+    <div class="panel">
+      <div class="title">Video Lane</div>
       <iframe id="player" allow="autoplay; encrypted-media; picture-in-picture; web-share" allowfullscreen playsinline title="Video lane"></iframe>
+
+      <div class="row" role="group" aria-label="Transport controls">
+        <button class="btn" id="prevBtn">◀︎ Prev</button>
+        <button class="btn" id="nextBtn">Next ▶︎</button>
+        <button class="btn" id="shuffleBtn" aria-pressed="false">Shuffle</button>
+        <button class="btn" id="repeatBtn" aria-pressed="false">Repeat 1</button>
+        <span class="pill small" id="nowLabel">—</span>
+      </div>
+
       <div class="row small">
-        Tip: click <b>+ video</b> and paste an official YouTube URL. It’s saved locally and loads next time.
+        Tip: add official YouTube URLs/IDs to your active playlist. Use Import/Export to manage full lists.
       </div>
     </div>
 
@@ -94,11 +104,8 @@
       </div>
       <div class="row">
         <label for="vol" class="small">Volume</label>
-        <input id="vol" class="slider" type="range" min="0" max="1" step="0.01" value="0.25" />
+        <input id="vol" class="slider" type="range" min="0" max="1" step="0.01" value="0.25"/>
         <button class="btn" id="unlockAudio" aria-label="Enable audio">Enable Audio</button>
-      </div>
-      <div class="row small">
-        Fire mantra: steady pressure, slow glide, then stillness. Breathe 5–5. Tune, don’t force.
       </div>
       <div class="panel small" style="margin-top:4px">
         <div><b>Self-check</b></div>
@@ -107,15 +114,56 @@
     </div>
   </section>
 
-  <footer>Offline-ready. Your video choice stays on this device only.</footer>
+  <section class="panel" aria-label="Playlists">
+    <div class="title">Playlists</div>
+    <div class="tabs" role="tablist" aria-label="Playlist tabs">
+      <button class="tab" role="tab" id="tabCur" aria-selected="true" aria-controls="panelCur">Curated (Doechii)</button>
+      <button class="tab" role="tab" id="tabIll" aria-selected="false" aria-controls="panelIll">Illumina (Main)</button>
+    </div>
+
+    <div id="panelCur" role="tabpanel" aria-labelledby="tabCur">
+      <div class="row">
+        <button class="btn" data-act="add" data-scope="cur">+ Add</button>
+        <button class="btn" data-act="import" data-scope="cur">Import JSON</button>
+        <button class="btn" data-act="export" data-scope="cur">Export JSON</button>
+        <button class="btn" data-act="clear" data-scope="cur">Clear</button>
+      </div>
+      <div class="list" id="listCur" aria-label="Curated list"></div>
+    </div>
+
+    <div class="spacer"></div>
+
+    <div id="panelIll" role="tabpanel" aria-labelledby="tabIll" hidden>
+      <div class="row">
+        <button class="btn" data-act="add" data-scope="ill">+ Add</button>
+        <button class="btn" data-act="import" data-scope="ill">Import JSON</button>
+        <button class="btn" data-act="export" data-scope="ill">Export JSON</button>
+        <button class="btn" data-act="clear" data-scope="ill">Clear</button>
+      </div>
+      <div class="list" id="listIll" aria-label="Illumina list"></div>
+    </div>
+  </section>
+
+  <footer>Offline-ready. Lists & settings stay on this device.</footer>
 </div>
 
 <script>
 (function(){
-  let ctx, gain, osc;
-  const stateKey = "alterfire_doechii_video_id";
+  // ---- Storage keys (site-scoped)
+  const KEY_CUR = "alterfire_doechii_curated";
+  const KEY_ILL = "alterfire_doechii_illumina";
+  const KEY_STATE = "alterfire_doechii_state";
 
-  // --- Audio bootstrap (iOS/Safari safe) ---
+  // ---- State
+  const state = {
+    active: "cur", // 'cur' or 'ill'
+    index: 0,
+    shuffle: false,
+    repeatOne: false
+  };
+
+  // ---- Audio
+  let ctx, gain, osc;
   function ensureCtx(){
     if(!ctx){
       ctx = new (window.AudioContext||window.webkitAudioContext)({latencyHint:"interactive"});
@@ -124,22 +172,24 @@
     }
     return ctx;
   }
-  function startTone(f){
-    ensureCtx();
-    stopTone();
-    osc = ctx.createOscillator();
-    osc.type = "sine";
-    osc.frequency.setValueAtTime(f, ctx.currentTime);
-    osc.connect(gain);
-    osc.start();
-  }
-  function stopTone(){
-    if(osc){ try{osc.stop();}catch(_){} osc.disconnect(); osc=null; }
-  }
+  function startTone(f){ ensureCtx(); stopTone(); osc = ctx.createOscillator(); osc.type="sine"; osc.frequency.setValueAtTime(f, ctx.currentTime); osc.connect(gain); osc.start(); }
+  function stopTone(){ if(osc){ try{osc.stop();}catch(_){} osc.disconnect(); osc=null; } }
 
-  // --- UI hooks ---
+  // ---- Elements
   const player = document.getElementById('player');
-  const addVideo = document.getElementById('addVideo');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const shuffleBtn = document.getElementById('shuffleBtn');
+  const repeatBtn = document.getElementById('repeatBtn');
+  const nowLabel = document.getElementById('nowLabel');
+
+  const tabCur = document.getElementById('tabCur');
+  const tabIll = document.getElementById('tabIll');
+  const panelCur = document.getElementById('panelCur');
+  const panelIll = document.getElementById('panelIll');
+  const listCur = document.getElementById('listCur');
+  const listIll = document.getElementById('listIll');
+
   const vol = document.getElementById('vol');
   const unlockBtn = document.getElementById('unlockAudio');
   const stopBtn = document.getElementById('stopTone');
@@ -147,72 +197,171 @@
   const chkVid = document.getElementById('chkVid');
   const chkStore = document.getElementById('chkStore');
 
-  function setVideo(id){
-    if(!id){ chkVid.textContent="idle"; chkVid.className="bad"; return; }
-    const src = "https://www.youtube-nocookie.com/embed/"+id+"?autoplay=0&mute=0&playsinline=1&rel=0&modestbranding=1";
-    player.src = src;
-    chkVid.textContent = "ready"; chkVid.className = "ok";
-  }
-
-  function extractYouTubeID(url){
+  // ---- Utils
+  function parseID(input){
     try{
-      const u = new URL(url);
+      const u = new URL(input);
       if(u.hostname.includes("youtu.be")) return u.pathname.slice(1);
       if(u.searchParams.get("v")) return u.searchParams.get("v");
       const m = u.pathname.match(/\/embed\/([A-Za-z0-9_-]{5,})/);
       if(m) return m[1];
     }catch(_){}
-    // fallback: accept raw id
-    if(/^[A-Za-z0-9_-]{5,}$/.test(url)) return url;
+    if(/^[A-Za-z0-9_-]{5,}$/.test(input)) return input;
     return null;
   }
+  function save(key, arr){ localStorage.setItem(key, JSON.stringify(arr)); }
+  function load(key){ try{ return JSON.parse(localStorage.getItem(key)||"[]"); }catch(_){ return []; } }
+  function saveState(){ localStorage.setItem(KEY_STATE, JSON.stringify(state)); }
+  function loadState(){ try{ Object.assign(state, JSON.parse(localStorage.getItem(KEY_STATE)||"{}")); }catch(_){} }
 
-  // load saved video id
-  const saved = localStorage.getItem(stateKey);
-  if(saved){ setVideo(saved); chkStore.textContent="saved"; chkStore.className="ok"; }
-  else { chkStore.textContent="unset"; chkStore.className="bad"; }
+  // ---- Lists
+  let curList = load(KEY_CUR);
+  let illList = load(KEY_ILL);
+  loadState();
 
-  addVideo.addEventListener('click', function(){
-    const v = prompt("Paste official YouTube URL (or ID) for Doechii:");
-    if(!v) return;
-    const id = extractYouTubeID(v);
-    if(!id){ alert("Could not parse that. Try a full YouTube URL or the video ID."); return; }
-    localStorage.setItem(stateKey, id);
-    setVideo(id);
-    chkStore.textContent="saved"; chkStore.className="ok";
+  function activeList(){ return state.active==="cur" ? curList : illList; }
+  function setVideoByIndex(){
+    const L = activeList();
+    if(!L.length){ player.removeAttribute('src'); chkVid.textContent="idle"; chkVid.className="bad"; nowLabel.textContent="—"; return; }
+    let i = state.index;
+    if(i<0) i=0; if(i>=L.length) i=L.length-1; state.index=i; saveState();
+    const item = L[i];
+    player.src = "https://www.youtube-nocookie.com/embed/"+item.id+"?autoplay=1&mute=0&playsinline=1&rel=0&modestbranding=1";
+    chkVid.textContent="ready"; chkVid.className="ok";
+    nowLabel.textContent = (item.title||item.id)+" · "+(state.active==="cur"?"Curated":"Illumina");
+  }
+
+  function render(){
+    listCur.innerHTML = "";
+    curList.forEach((it,idx)=>{
+      const row = document.createElement('div'); row.className="item";
+      const left = document.createElement('div');
+      left.innerHTML = `<div>${it.title||it.id}</div><div class="small muted">${it.id}</div>`;
+      const controls = document.createElement('div'); controls.className="controls";
+      controls.append(
+        makeBtn("Play", ()=>{ state.active="cur"; tabSelect("cur"); state.index=idx; saveState(); setVideoByIndex(); }),
+        makeBtn("↑", ()=>{ if(idx>0){ const t=curList[idx-1]; curList[idx-1]=curList[idx]; curList[idx]=t; save(KEY_CUR,curList); render(); } }),
+        makeBtn("↓", ()=>{ if(idx<curList.length-1){ const t=curList[idx+1]; curList[idx+1]=curList[idx]; curList[idx]=t; save(KEY_CUR,curList); render(); } }),
+        makeBtn("✕", ()=>{ curList.splice(idx,1); save(KEY_CUR,curList); render(); })
+      );
+      row.append(left,controls); listCur.append(row);
+    });
+
+    listIll.innerHTML = "";
+    illList.forEach((it,idx)=>{
+      const row = document.createElement('div'); row.className="item";
+      const left = document.createElement('div');
+      left.innerHTML = `<div>${it.title||it.id}</div><div class="small muted">${it.id}</div>`;
+      const controls = document.createElement('div'); controls.className="controls";
+      controls.append(
+        makeBtn("Play", ()=>{ state.active="ill"; tabSelect("ill"); state.index=idx; saveState(); setVideoByIndex(); }),
+        makeBtn("↑", ()=>{ if(idx>0){ const t=illList[idx-1]; illList[idx-1]=illList[idx]; illList[idx]=t; save(KEY_ILL,illList); render(); } }),
+        makeBtn("↓", ()=>{ if(idx<illList.length-1){ const t=illList[idx+1]; illList[idx+1]=illList[idx]; illList[idx]=t; save(KEY_ILL,illList); render(); } }),
+        makeBtn("✕", ()=>{ illList.splice(idx,1); save(KEY_ILL,illList); render(); })
+      );
+      row.append(left,controls); listIll.append(row);
+    });
+
+    chkStore.textContent = (curList.length+illList.length)>0 ? "saved" : "unset";
+    chkStore.className = (curList.length+illList.length)>0 ? "ok" : "bad";
+  }
+
+  function makeBtn(label, fn){ const b = document.createElement('button'); b.className="btn"; b.textContent=label; b.addEventListener('click', fn); return b; }
+
+  // ---- Tab switching
+  function tabSelect(which){
+    const isCur = which==="cur";
+    tabCur.setAttribute('aria-selected', isCur?"true":"false");
+    tabIll.setAttribute('aria-selected', isCur?"false":"true");
+    panelCur.hidden = !isCur; panelIll.hidden = isCur;
+    state.active = isCur?"cur":"ill"; saveState(); setVideoByIndex();
+  }
+  tabCur.addEventListener('click', ()=> tabSelect("cur"));
+  tabIll.addEventListener('click', ()=> tabSelect("ill"));
+
+  // ---- Playlist actions
+  document.querySelectorAll('[data-act]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const scope = btn.getAttribute('data-scope'); // 'cur' or 'ill'
+      let arr = scope==="cur" ? curList : illList;
+      const key = scope==="cur" ? KEY_CUR : KEY_ILL;
+      const act = btn.getAttribute('data-act');
+
+      if(act==="add"){
+        const input = prompt("Paste official YouTube URL (or ID). Optionally add a title after a comma.\nExample: https://youtu.be/ABC123, My Title");
+        if(!input) return;
+        let id, title="";
+        if(input.includes(",")){ const parts=input.split(","); id = parseID(parts[0].trim()); title = parts.slice(1).join(",").trim(); }
+        else { id = parseID(input.trim()); }
+        if(!id){ alert("Could not parse. Use a full YouTube URL or the video ID."); return; }
+        arr.push({id, title});
+        save(key, arr); render();
+      }
+      if(act==="import"){
+        const text = prompt("Paste JSON array of items: [{\"id\":\"VIDEOID\",\"title\":\"Optional\"}, ...]");
+        if(!text) return;
+        try{
+          const imported = JSON.parse(text).filter(x=>x && x.id);
+          arr.splice(0, arr.length, ...imported);
+          save(key, arr); render();
+        }catch(_){ alert("Invalid JSON."); }
+      }
+      if(act==="export"){
+        alert(JSON.stringify(arr));
+      }
+      if(act==="clear"){
+        if(confirm("Clear this playlist?")){ arr.splice(0,arr.length); save(key,arr); render(); setVideoByIndex(); }
+      }
+    });
   });
 
-  unlockBtn.addEventListener('click', async function(){
-    ensureCtx();
-    if(ctx.state === "suspended"){ try{await ctx.resume();}catch(_){} }
+  // ---- Transport
+  prevBtn.addEventListener('click', ()=>{
+    const L = activeList(); if(!L.length) return;
+    state.index = (state.index-1+L.length)%L.length; saveState(); setVideoByIndex();
+  });
+  nextBtn.addEventListener('click', ()=>{
+    const L = activeList(); if(!L.length) return;
+    if(state.shuffle){ state.index = Math.floor(Math.random()*L.length); }
+    else { state.index = (state.index+1)%L.length; }
+    saveState(); setVideoByIndex();
+  });
+  shuffleBtn.addEventListener('click', ()=>{
+    state.shuffle = !state.shuffle; shuffleBtn.setAttribute('aria-pressed', String(state.shuffle));
+    saveState();
+  });
+  repeatBtn.addEventListener('click', ()=>{
+    state.repeatOne = !state.repeatOne; repeatBtn.setAttribute('aria-pressed', String(state.repeatOne));
+    saveState();
+  });
+
+  // naive end detection: watch hashchange via Player API-less trick (not perfect on iOS). Provide Next btn anyway.
+
+  // ---- Tone UI
+  document.querySelectorAll('[data-f]').forEach(b=> b.addEventListener('click', ()=> startTone(parseFloat(b.getAttribute('data-f')))));
+  stopBtn.addEventListener('click', stopTone);
+  vol.addEventListener('input', ()=>{ if(gain){ gain.gain.setValueAtTime(parseFloat(vol.value), ctx.currentTime||0); }});
+  unlockBtn.addEventListener('click', async ()=>{
+    ensureCtx(); if(ctx.state==="suspended"){ try{ await ctx.resume(); }catch(_){ } }
     chkAudio.textContent = (ctx && ctx.state==="running") ? "running" : ctx.state;
     chkAudio.className = (ctx && ctx.state==="running") ? "ok" : "bad";
   });
 
-  vol.addEventListener('input', function(){
-    if(gain){ gain.gain.setValueAtTime(parseFloat(vol.value), ctx.currentTime || 0); }
-  });
+  // ---- Init
+  render();
+  tabSelect(state.active);
+  if(activeList().length){ setVideoByIndex(); }
 
-  stopBtn.addEventListener('click', stopTone);
-
-  document.querySelectorAll('[data-f]').forEach(b=>{
-    b.addEventListener('click', ()=> startTone(parseFloat(b.getAttribute('data-f'))));
-  });
-
-  // Inline Service Worker via blob (offline shell)
+  // ---- SW
   if('serviceWorker' in navigator){
-    const swCode = `
-      self.addEventListener('install', e=>{ self.skipWaiting(); e.waitUntil(caches.open('af-doechii-v1').then(c=>c.addAll(['./']))); });
+    const sw = `
+      self.addEventListener('install', e=>{ self.skipWaiting(); e.waitUntil(caches.open('af-doechii-v2').then(c=>c.addAll(['./']))); });
       self.addEventListener('activate', e=> self.clients.claim());
-      self.addEventListener('fetch', e=>{
-        e.respondWith(
-          caches.match(e.request).then(r=> r || fetch(e.request).catch(()=> caches.match('./')))
-        );
-      });
+      self.addEventListener('fetch', e=>{ e.respondWith(caches.match(e.request).then(r=> r || fetch(e.request).catch(()=> caches.match('./')))); });
     `;
-    const blob = new Blob([swCode], {type:'text/javascript'});
-    const swURL = URL.createObjectURL(blob);
-    navigator.serviceWorker.register(swURL).catch(()=>{});
+    const blob = new Blob([sw], {type:'text/javascript'});
+    const url = URL.createObjectURL(blob);
+    navigator.serviceWorker.register(url).catch(()=>{});
   }
 })();
 </script>
