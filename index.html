@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>alter.fire.plnt.earth — Doechii</title>
   <meta name="color-scheme" content="dark light">
-  <meta name="description" content="Alter.Fire — Doechii’s anchor domain: Razor-Clarity, Red–Black–Gold aesthetic, pulse logic, and boundary inversion labs." />
+  <meta name="description" content="Alter.Fire — Doechii’s anchor domain: razor clarity, pulse logic, and intentional discontinuity." />
 
   <style>
     :root{
@@ -14,558 +14,309 @@
       --ink-dim:#d4bdc9;
       --line:rgba(255,255,255,0.14);
 
-      --r:#d72638;     /* red */
-      --gold:#f1c232;  /* gold */
+      --r:#d72638;
+      --gold:#f1c232;
       --amber:#ffbb55;
-      --fire:#ff2a2a;
 
-      --panel:rgba(255,255,255,0.06);
-      --glass:rgba(255,255,255,0.10);
-
-      --chip-bg:rgba(215,38,56,0.22);
-      --chip-border:#ff4d5d;
+      --card:rgba(10,7,9,0.82);
+      --soft:rgba(255,255,255,0.06);
+      --ring:rgba(241,194,50,0.35);
 
       --focus:2px solid var(--gold);
+      --shadow:0 16px 44px rgba(0,0,0,.35);
     }
 
     *{box-sizing:border-box}
-    html,body{height:100%; margin:0; padding:0;}
+    html,body{height:100%; margin:0}
     body{
-      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
       background:
         radial-gradient(1200px 900px at 70% -10%, rgba(255,80,80,0.20), transparent 65%),
         radial-gradient(900px 700px at -10% 20%, rgba(255,190,80,0.18), transparent 65%),
         linear-gradient(180deg,#090607 0%,#0a0709 100%);
       color:var(--ink);
       -webkit-font-smoothing:antialiased;
-      text-rendering:optimizeLegibility;
       overflow-x:hidden;
-      position:relative;
     }
 
     a{color:var(--gold); text-decoration:none}
     a:hover{color:var(--amber)}
     a:focus-visible, button:focus-visible{outline:var(--focus); outline-offset:3px; border-radius:10px}
 
-    /* ===== Video Background (FieldLab mechanics) ===== */
-    #videoBackground{
-      position:fixed;
-      inset:0;
-      z-index:-1;
-      overflow:hidden;
-    }
+    /* Video background */
+    #videoBackground{position:fixed; inset:0; z-index:-1; overflow:hidden}
     #videoBackground iframe{
       position:absolute;
-      top:50%;
-      left:50%;
-      width:177.77777778vh;
-      height:100vh;
-      min-width:100%;
-      min-height:56.25vw;
-      transform:translate(-50%, -50%);
+      top:50%; left:50%;
+      width:177.77777778vh; height:100vh;
+      min-width:100%; min-height:56.25vw;
+      transform:translate(-50%,-50%);
       pointer-events:none;
-      opacity:0.15; /* match Field Lab */
+      opacity:0.15;
     }
 
-    /* ===== Tap-to-play overlay ===== */
+    /* Overlay */
     #playOverlay{
-      position:fixed;
-      inset:0;
-      z-index:10000;
+      position:fixed; inset:0; z-index:10000;
       background:rgba(10,7,9,0.85);
       backdrop-filter:blur(10px);
-      display:flex;
-      align-items:center;
-      justify-content:center;
+      display:flex; align-items:center; justify-content:center;
       cursor:pointer;
-      transition:opacity 0.3s ease, visibility 0.3s ease;
+      transition:opacity .3s ease, visibility .3s ease;
     }
-    #playOverlay.hidden{
-      opacity:0;
-      visibility:hidden;
-      pointer-events:none;
-    }
+    #playOverlay.hidden{opacity:0; visibility:hidden; pointer-events:none}
     .play-prompt{
       text-align:center;
       padding:34px 28px;
       border-radius:20px;
       background:rgba(215,38,56,0.10);
-      border:2px solid rgba(241,194,50,0.75);
-      max-width:420px;
-      box-shadow:0 16px 44px rgba(0,0,0,.35);
+      border:2px solid rgba(241,194,50,0.7);
+      max-width:440px;
+      box-shadow:var(--shadow);
     }
-    .play-icon{
-      font-size:64px;
-      margin-bottom:14px;
-      line-height:1;
-    }
+    .play-icon{font-size:64px; margin-bottom:12px}
     .play-prompt h2{
-      margin:0 0 10px 0;
+      margin:0 0 10px;
       font-size:28px;
       font-weight:900;
-      letter-spacing:.2px;
       background:linear-gradient(95deg,var(--r),var(--gold));
       -webkit-background-clip:text;
       -webkit-text-fill-color:transparent;
     }
-    .play-prompt p{
-      margin:8px 0;
-      color:var(--ink-dim);
-      font-size:15px;
-      line-height:1.35;
-    }
-    .tiny{font-size:12.5px; opacity:.86}
+    .play-prompt p{color:var(--ink-dim); margin:6px 0}
 
-    /* ===== Layout ===== */
-    header, main, footer{
-      width:min(1120px,92vw);
-      margin:0 auto;
-      position:relative;
-      z-index:1;
-    }
-
+    header, main, footer{width:min(1120px,92vw); margin:0 auto; position:relative; z-index:1}
     header{padding:28px 0 10px}
     .row{display:flex; flex-wrap:wrap; align-items:center; gap:14px}
-    .brand{display:flex; align-items:center; gap:12px}
-    .glyph{
-      width:22px; height:22px;
-      border:1px solid rgba(255,255,255,.18);
-      border-radius:50%;
-      position:relative;
-      background: radial-gradient(circle at 60% 40%, rgba(215,38,56,.9), transparent 62%);
-      box-shadow:0 10px 30px rgba(0,0,0,.25);
-    }
-
     nav{margin-left:auto; display:flex; gap:10px; flex-wrap:wrap}
     .btn{
-      appearance:none;
       border:1px solid rgba(241,194,50,0.45);
       background:rgba(10,7,9,0.72);
       color:var(--ink);
       padding:9px 12px;
       border-radius:10px;
       font-weight:700;
-      cursor:pointer;
-      transition:transform .12s ease, background .12s ease, border-color .12s ease;
       backdrop-filter:blur(10px);
-      font-size:13px;
-    }
-    .btn:hover{
-      transform:translateY(-1px);
-      border-color:rgba(241,194,50,0.8);
-      background:rgba(10,7,9,0.88);
+      cursor:pointer;
     }
 
-    .hero{padding:54px 0 18px; position:relative; overflow:hidden}
+    .hero{padding:54px 0 18px}
     .title{
-      font-size:clamp(30px,4.8vw,58px);
-      line-height:1.02;
-      letter-spacing:-.02em;
-      margin:6px 0 12px;
-      font-weight:950;
+      font-size:clamp(32px,5vw,58px);
+      text-align:center;
+      margin:12px 0;
+      font-weight:900;
     }
     .subtitle{
+      text-align:center;
+      max-width:820px;
+      margin:0 auto;
       color:var(--ink-dim);
-      font-size:clamp(14px,1.6vw,18px);
-      max-width:860px;
     }
-
-    .tag{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:8px 10px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.18);
-      background:rgba(255,255,255,.06);
-      backdrop-filter:blur(10px);
-      font-weight:700;
-      font-size:13px;
-    }
-    .alive{position:relative; isolation:isolate}
-    .alive::after{
-      content:"";
-      position:absolute; inset:-2px;
-      z-index:-1;
-      border-radius:999px;
-      background: conic-gradient(from 180deg at 50% 50%,
-        rgba(241,194,50,0.0),
-        rgba(241,194,50,0.18),
-        rgba(215,38,56,0.14),
-        rgba(241,194,50,0.0) 70%);
-      filter: blur(18px);
-      opacity:.75;
-      animation: drift 10s linear infinite;
-    }
-    @keyframes drift{to{transform:rotate(360deg)}}
 
     .cards{
       display:grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
+      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
       gap:14px;
-      margin:22px 0 12px;
+      margin:26px 0;
     }
     .card{
-      background:rgba(10,7,9,0.82);
+      background:var(--card);
       border:1px solid rgba(255,255,255,0.12);
-      padding:16px 14px;
       border-radius:14px;
-      transition:border-color .16s ease, transform .12s ease, background .18s ease;
+      padding:16px;
       backdrop-filter:blur(12px);
     }
-    .card:hover{border-color:rgba(241,194,50,0.35); transform:translateY(-1px)}
-    h2{font-size:clamp(18px,2.2vw,24px); margin:0 0 8px}
-    h3{font-size:clamp(16px,2vw,20px); margin:0 0 6px}
-    p{margin:8px 0 0; color:var(--ink-dim)}
-    ul{margin:8px 0 0 18px; padding:0}
-    li{margin:6px 0; color:var(--ink-dim)}
 
     .note{
       border-left:3px solid var(--gold);
-      padding:10px 12px;
+      padding:12px;
       background:rgba(10,7,9,0.55);
       border-radius:10px;
     }
 
     footer{
-      padding:36px 0 56px;
-      color:var(--ink-dim);
+      margin-top:40px;
+      padding:40px 0 60px;
       border-top:1px solid rgba(255,255,255,0.12);
-      margin-top:34px;
       text-align:center;
+      color:var(--ink-dim);
       font-size:13px;
     }
 
-    /* ===== Controls ===== */
     #pauseBtn{
       position:fixed;
-      bottom:20px;
-      left:50%;
+      bottom:20px; left:50%;
       transform:translateX(-50%);
-      z-index:5000;
       padding:8px 16px;
-      background:rgba(10,7,9,0.86);
-      border:1px solid rgba(241,194,50,0.45);
       border-radius:999px;
+      border:1px solid rgba(241,194,50,0.45);
+      background:rgba(10,7,9,0.85);
       color:var(--ink);
-      font-size:12px;
-      cursor:pointer;
       backdrop-filter:blur(10px);
       display:none;
-      font-weight:800;
-      letter-spacing:.2px;
-    }
-    #pauseBtn:hover{
-      border-color:rgba(241,194,50,0.85);
-      background:rgba(10,7,9,0.95);
+      cursor:pointer;
+      z-index:5000;
     }
 
     #switchBtn{
       display:none;
-      gap:8px;
-      align-items:center;
-      padding:8px 12px;
+      margin:0 auto 12px;
+      padding:8px 14px;
       border-radius:999px;
-      border:1px solid rgba(255,255,255,.18);
-      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,0.18);
+      background:rgba(255,255,255,0.06);
       backdrop-filter:blur(10px);
       color:var(--ink);
-      font-weight:800;
-      font-size:13px;
+      font-weight:700;
       cursor:pointer;
-      transition:transform .12s ease, border-color .12s ease, background .12s ease;
-    }
-    #switchBtn:hover{
-      transform:translateY(-1px);
-      border-color:rgba(241,194,50,0.4);
-      background:rgba(255,255,255,.08);
-    }
-    .dot{
-      width:8px; height:8px; border-radius:50%;
-      background:var(--gold);
-      box-shadow:0 0 0 3px rgba(241,194,50,0.16);
-    }
-
-    /* accessibility helpers */
-    .sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0}
-
-    @media(max-width:768px){
-      nav{width:100%; justify-content:center;}
-      .brand{width:100%; justify-content:center;}
     }
   </style>
 </head>
 
 <body>
-  <!-- Video Background -->
-  <div id="videoBackground" aria-hidden="true">
-    <div id="bgPlayer"></div>
+
+<div id="videoBackground"><div id="bgPlayer"></div></div>
+
+<div id="playOverlay">
+  <div class="play-prompt">
+    <div class="play-icon">▶</div>
+    <h2>Alter.Fire</h2>
+    <p>Tap to ignite the background.</p>
   </div>
+</div>
 
-  <!-- Play Overlay -->
-  <div id="playOverlay" role="button" aria-label="Tap to play background video" tabindex="0">
-    <div class="play-prompt" aria-live="polite">
-      <div class="play-icon" aria-hidden="true">▶</div>
-      <h2>Alter.Fire</h2>
-      <p>Tap anywhere to ignite the background.</p>
-      <p class="tiny">You can pause, and you can switch voltage.</p>
-    </div>
-  </div>
+<header class="row">
+  <strong>Alter.Fire</strong>
+  <nav>
+    <a class="btn" href="https://fire.plnt.earth">fire</a>
+    <a class="btn" href="https://alter.plnt.earth">alter</a>
+    <a class="btn" href="https://t9.plnt.earth">t9</a>
+    <a class="btn" href="https://earth.plnt.earth">earth</a>
+  </nav>
+</header>
 
-  <header class="row">
-    <div class="brand">
-      <span class="glyph" aria-hidden="true"></span>
-      <strong>Alter.Fire</strong>
-      <span style="opacity:.6">|</span>
-      <span class="tiny">Doechii · Razor-Clarity / Pulse Logic</span>
-    </div>
+<section class="hero">
+  <main>
+    <button id="switchBtn">switch voltage</button>
 
-    <nav class="row" aria-label="Site">
-      <a class="btn" href="https://fire.plnt.earth">fire</a>
-      <a class="btn" href="https://alter.plnt.earth">alter</a>
-      <a class="btn" href="https://t9.plnt.earth">t9 <span style="opacity:.6;font-weight:700;">(for fun)</span></a>
-      <a class="btn" href="https://earth.plnt.earth">earth</a>
-    </nav>
-  </header>
-
-  <section class="hero">
-    <main>
-      <div class="row" style="justify-content:center; gap:10px;">
-        <div class="tag alive" role="note" aria-label="Moon note">
-          <span aria-hidden="true">🌕</span> Moon Note · Alter × Voltage
-        </div>
-        <button id="switchBtn" type="button" aria-label="Switch background video">
-          <span class="dot" aria-hidden="true"></span>
-          <span id="switchLabel">switch → dynamite</span>
-        </button>
-      </div>
-
-      <h1 class="title" style="text-align:center;">
-        Razor clarity.<br/>Controlled inversion.
-      </h1>
-      <p class="subtitle" style="text-align:center; margin:0 auto;">
-        Alter.Fire is the anchor domain for <strong>Doechii</strong> — a space for transformation under pressure:
-        when heat becomes information, and the beat becomes structure.
-      </p>
-
-      <div class="cards" style="margin-top:26px">
-        <article class="card">
-          <h2>Moon Note</h2>
-          <div class="note">
-            <p style="margin:0;color:var(--ink);">
-              Request placed into the field: a collision of <strong>Alter-Ego</strong> and <strong>Dynamite</strong>.
-              <br/>
-              Doechii × Sigrid — not a pitch, not a demand — a clean alignment:
-              <em>identity inversion</em> meets <em>controlled detonation</em>.
-            </p>
-          </div>
-          <p class="tiny" style="margin-top:10px;">
-            Switch the background between the two signals when you want.
-          </p>
-        </article>
-
-        <article class="card">
-          <h2>Principles</h2>
-          <ul>
-            <li><strong>Razor Clarity:</strong> remove noise, expose signal.</li>
-            <li><strong>Pulse Logic:</strong> the beat determines the structure.</li>
-            <li><strong>Heat as Information:</strong> energy reveals truth.</li>
-            <li><strong>Alter States:</strong> controlled inversion to find identity.</li>
-          </ul>
-        </article>
-
-        <article class="card">
-          <h2>Cluster Domains</h2>
-          <p class="tiny" style="margin:0 0 6px; opacity:.82; text-transform:uppercase; letter-spacing:.8px;">Primary</p>
-          <ul>
-            <li><a href="https://alter.fire.plnt.earth">alter.fire</a> (this page)</li>
-            <li><a href="https://fire.plnt.earth">fire</a></li>
-            <li><a href="https://alter.plnt.earth">alter</a></li>
-          </ul>
-
-          <p class="tiny" style="margin:12px 0 6px; opacity:.82; text-transform:uppercase; letter-spacing:.8px;">Child</p>
-          <ul>
-            <li><a href="https://royke.plnt.earth">royke</a> — boundary lab</li>
-            <li><a href="https://ban-tar.plnt.earth">ban-tar</a></li>
-            <li><a href="https://flare.plnt.earth">flare</a></li>
-            <li><a href="https://virus.plnt.earth">virus</a></li>
-            <li><a href="https://mask.plnt.earth">mask</a></li>
-          </ul>
-        </article>
-      </div>
-    </main>
-  </section>
-
-  <footer>
-    <p style="max-width:860px;margin:0 auto 14px;line-height:1.7;">
-      alter.fire.plnt.earth — Doechii Anchor Domain · Moon Note update: Dynamite × Alter-Ego
-      <br/>
-      <span class="tiny" style="opacity:.8;">t9 is just for fun: <a href="https://t9.plnt.earth">t9.plnt.earth</a></span>
+    <h1 class="title">Razor clarity.<br/>Controlled inversion.</h1>
+    <p class="subtitle">
+      Alter.Fire is the anchor domain for Doechii — a space for transformation under pressure,
+      where heat becomes information and rhythm becomes structure.
     </p>
-    <p class="tiny" style="opacity:0.6;">© <span id="y"></span> Illumina · single-file page</p>
-  </footer>
 
-  <button id="pauseBtn" type="button">⏸ Pause</button>
+    <div class="cards">
+      <div class="card">
+        <h2>Moon Note</h2>
+        <div class="note">
+          <p>
+            Floating is the default.<br><br>
+            But when the charge builds long enough,<br>
+            motion returns through ignition.<br><br>
+            Breaks are not exits —<br>
+            they are voltage finding ground.<br><br>
+            This page holds that threshold:<br>
+            the moment before impact becomes music.
+          </p>
+        </div>
+      </div>
 
-  <script>
-    // ===== YouTube background logic (FieldLab-style; no console output) =====
+      <div class="card">
+        <h2>t9</h2>
+        <p>
+          t9 is a small game inside a much larger site — a way to break up routine.
+          You tap numbers, try phrases, and sometimes something opens.
+        </p>
+        <p>
+          It’s a nod to ninajirachi’s <em>4562.world</em>, drawing from
+          <em>infohazard</em> and <em>ilovemycomputer</em>.
+          The T9 code for “ilovemycomputer” unlocks Nina’s number.
+        </p>
+        <p>
+          Not everything is easy to find. More will appear over time.
+        </p>
+      </div>
 
-    // Video IDs from provided links:
-    // Alter Ego: https://www.youtube.com/watch?v=VUafNhtPmQY
-    // Dynamite:  https://www.youtube.com/watch?v=hKvbaZTAQN0
-    var VIDEOS = [
-      { key: "alter",   title: "Alter Ego", videoId: "VUafNhtPmQY" },
-      { key: "dynamite",title: "Dynamite",  videoId: "hKvbaZTAQN0" }
-    ];
-    var currentIndex = 0;
+      <div class="card">
+        <h2>froot</h2>
+        <p>
+          On froot.plnt.earth, there’s a recurring moment — once per Illumina cycle.
+          Some people come to write poetry, some to think about physics,
+          some just to explore the sites together.
+        </p>
+        <p>
+          There’s no agenda. You can collaborate or work quietly on your own.
+        </p>
+      </div>
+    </div>
+  </main>
+</section>
 
-    // Load YouTube IFrame API
-    var tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    var firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+<footer>
+  <p>
+    Grounded on Earth.<br>
+    A reminder from <em>No Cure For Me</em> — staying present, staying human.
+  </p>
+  <p>
+    <a href="https://earth.plnt.earth">earth.plnt.earth</a>
+  </p>
+  <p style="opacity:.6;margin-top:12px;">
+    © <span id="y"></span> Illumina
+  </p>
+</footer>
 
-    var player;
-    var playerReady = false;
-    var hasStarted = false;
-    var isPaused = false;
+<button id="pauseBtn">⏸ Pause</button>
 
-    function onYouTubeIframeAPIReady() {
-      player = new YT.Player('bgPlayer', {
-        height: '100%',
-        width: '100%',
-        videoId: VIDEOS[currentIndex].videoId,
-        playerVars: {
-          autoplay: 0,
-          controls: 0,
-          loop: 1,
-          playlist: VIDEOS[currentIndex].videoId,
-          playsinline: 1,
-          mute: 1,
-          rel: 0,
-          modestbranding: 1,
-          fs: 0,
-          iv_load_policy: 3
-        },
-        events: {
-          onReady: function() {
-            playerReady = true;
-          },
-          onStateChange: function(e){
-            // Safety loop: if the player ends for any reason, restart the current video.
-            if(e && e.data === YT.PlayerState.ENDED && player && player.seekTo && player.playVideo){
-              try{
-                player.seekTo(0, true);
-                player.playVideo();
-              }catch(_){}
-            }
-          }
-        }
-      });
+<script>
+var VIDEOS=[
+  {id:"VUafNhtPmQY"},
+  {id:"hKvbaZTAQN0"}
+];
+var idx=0,player,ready=false,started=false,paused=false;
+
+var tag=document.createElement('script');
+tag.src="https://www.youtube.com/iframe_api";
+document.body.appendChild(tag);
+
+function onYouTubeIframeAPIReady(){
+  player=new YT.Player('bgPlayer',{
+    videoId:VIDEOS[idx].id,
+    playerVars:{controls:0,loop:1,playlist:VIDEOS[idx].id,playsinline:1,mute:1,rel:0},
+    events:{onReady:()=>ready=true}
+  });
+}
+
+var overlay=document.getElementById('playOverlay');
+var pauseBtn=document.getElementById('pauseBtn');
+var switchBtn=document.getElementById('switchBtn');
+
+overlay.onclick=function(){
+  if(started)return;
+  started=true;
+  overlay.classList.add('hidden');
+  pauseBtn.style.display='block';
+  switchBtn.style.display='block';
+  var t=setInterval(()=>{
+    if(ready){
+      player.unMute(); player.playVideo(); clearInterval(t);
     }
+  },100);
+};
 
-    (function(){
-      var y = document.getElementById('y');
-      if(y){ y.textContent = new Date().getFullYear(); }
+pauseBtn.onclick=function(){
+  if(paused){player.playVideo();pauseBtn.textContent="⏸ Pause";}
+  else{player.pauseVideo();pauseBtn.textContent="▶ Play";}
+  paused=!paused;
+};
 
-      var overlay = document.getElementById('playOverlay');
-      var pauseBtn = document.getElementById('pauseBtn');
-      var switchBtn = document.getElementById('switchBtn');
-      var switchLabel = document.getElementById('switchLabel');
+switchBtn.onclick=function(){
+  idx=(idx+1)%VIDEOS.length;
+  player.loadVideoById(VIDEOS[idx].id);
+};
 
-      function setSwitchLabel(){
-        var nextIndex = (currentIndex + 1) % VIDEOS.length;
-        // "switch → dynamite" when currently alter, and vice versa
-        switchLabel.textContent = "switch \u2192 " + VIDEOS[nextIndex].key;
-      }
+document.getElementById('y').textContent=new Date().getFullYear();
+</script>
 
-      function applyLoopVarsForCurrent(){
-        // Ensures YT loop is pinned to the active video.
-        // Some environments ignore playlist changes unless we use loadVideoById + cuePlaylist-like behavior.
-        // We'll set the playlist by re-loading with a tiny guard.
-        try{
-          player.loadVideoById({ videoId: VIDEOS[currentIndex].videoId, startSeconds: 0 });
-        }catch(_){}
-      }
-
-      function startPlayback(){
-        overlay.classList.add('hidden');
-        pauseBtn.style.display = 'block';
-        switchBtn.style.display = 'inline-flex';
-        setSwitchLabel();
-
-        var attempts = 0;
-        var checkReady = setInterval(function(){
-          attempts++;
-          if(playerReady && player && player.unMute && player.playVideo){
-            try{
-              player.unMute();
-              player.setVolume(100);
-              applyLoopVarsForCurrent();
-              player.playVideo();
-              clearInterval(checkReady);
-            }catch(_){
-              // keep trying briefly
-            }
-          } else if(attempts > 60){
-            clearInterval(checkReady);
-          }
-        }, 100);
-      }
-
-      function overlayActivate(){
-        if(hasStarted) return;
-        hasStarted = true;
-        startPlayback();
-      }
-
-      overlay.addEventListener('click', overlayActivate);
-      overlay.addEventListener('keydown', function(e){
-        if(e && (e.key === "Enter" || e.key === " ")){
-          e.preventDefault();
-          overlayActivate();
-        }
-      });
-
-      pauseBtn.addEventListener('click', function(e){
-        e.stopPropagation();
-        if(!hasStarted || !player) return;
-
-        if(isPaused){
-          try{ player.playVideo(); }catch(_){}
-          pauseBtn.textContent = '⏸ Pause';
-          isPaused = false;
-        } else {
-          try{ player.pauseVideo(); }catch(_){}
-          pauseBtn.textContent = '▶ Play';
-          isPaused = true;
-        }
-      });
-
-      switchBtn.addEventListener('click', function(e){
-        e.stopPropagation();
-        if(!hasStarted || !playerReady || !player) return;
-
-        currentIndex = (currentIndex + 1) % VIDEOS.length;
-        setSwitchLabel();
-
-        // Keep paused state consistent: if paused, cue and stay paused; if playing, switch and play.
-        var shouldPlay = !isPaused;
-
-        try{
-          if(shouldPlay){
-            player.loadVideoById({ videoId: VIDEOS[currentIndex].videoId, startSeconds: 0 });
-            // Make sure audio stays on after switching
-            player.unMute();
-            player.setVolume(100);
-            player.playVideo();
-          } else {
-            // cue without forcing play
-            player.cueVideoById({ videoId: VIDEOS[currentIndex].videoId, startSeconds: 0 });
-          }
-        }catch(_){}
-      });
-    })();
-  </script>
 </body>
 </html>
